@@ -1,22 +1,33 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: 孝感非遗文化数字化平台 API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: heritage
+    description: 非遗项目数据
+  - name: artisan
+    description: 传承人数据
+  - name: quiz
+    description: 知识闯关答题
+  - name: product
+    description: 文创产品
+  - name: activity
+    description: 活动信息
+  - name: ai
+    description: AI文创工坊
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +35,234 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /heritage/items:
+    get:
+      operationId: listHeritageItems
+      tags: [heritage]
+      summary: 获取非遗项目列表
+      parameters:
+        - name: level
+          in: query
+          schema:
+            type: string
+            enum: [national, provincial, municipal, all]
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: limit
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: 非遗项目列表
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HeritageItemListResponse"
+
+  /heritage/items/{id}:
+    get:
+      operationId: getHeritageItem
+      tags: [heritage]
+      summary: 获取单个非遗项目详情
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: 非遗项目详情
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HeritageItem"
+
+  /heritage/categories:
+    get:
+      operationId: listHeritageCategories
+      tags: [heritage]
+      summary: 获取非遗分类
+      responses:
+        "200":
+          description: 分类列表
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryListResponse"
+
+  /artisans:
+    get:
+      operationId: listArtisans
+      tags: [artisan]
+      summary: 获取传承人列表
+      parameters:
+        - name: level
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: limit
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: 传承人列表
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArtisanListResponse"
+
+  /artisans/{id}:
+    get:
+      operationId: getArtisan
+      tags: [artisan]
+      summary: 获取传承人详情
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: 传承人详情
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Artisan"
+
+  /quiz/questions:
+    get:
+      operationId: listQuizQuestions
+      tags: [quiz]
+      summary: 获取答题题目
+      parameters:
+        - name: difficulty
+          in: query
+          schema:
+            type: string
+            enum: [beginner, intermediate, expert]
+        - name: limit
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: 题目列表
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuizQuestionListResponse"
+
+  /quiz/submit:
+    post:
+      operationId: submitQuizAnswer
+      tags: [quiz]
+      summary: 提交答题结果
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuizSubmitRequest"
+      responses:
+        "200":
+          description: 答题结果
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuizSubmitResponse"
+
+  /products:
+    get:
+      operationId: listProducts
+      tags: [product]
+      summary: 获取文创产品列表
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: limit
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: 文创产品列表
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductListResponse"
+
+  /activities:
+    get:
+      operationId: listActivities
+      tags: [activity]
+      summary: 获取活动列表
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [upcoming, ongoing, past]
+      responses:
+        "200":
+          description: 活动列表
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActivityListResponse"
+
+  /ai/generate:
+    post:
+      operationId: generateAiArt
+      tags: [ai]
+      summary: AI文创生成
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AiGenerateRequest"
+      responses:
+        "200":
+          description: 生成结果
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiGenerateResponse"
+
+  /stats:
+    get:
+      operationId: getPlatformStats
+      tags: [heritage]
+      summary: 获取平台统计数据
+      responses:
+        "200":
+          description: 平台统计
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlatformStats"
+
 components:
   schemas:
     HealthStatus:
@@ -31,6 +270,321 @@ components:
       properties:
         status:
           type: string
-      required:
-        - status
+      required: [status]
 
+    HeritageItem:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        nameEn:
+          type: string
+        level:
+          type: string
+          enum: [national, provincial, municipal]
+        category:
+          type: string
+        description:
+          type: string
+        shortDesc:
+          type: string
+        imageUrl:
+          type: string
+        videoUrl:
+          type: string
+        origin:
+          type: string
+        yearListed:
+          type: number
+        artisanCount:
+          type: number
+        tags:
+          type: array
+          items:
+            type: string
+        featured:
+          type: boolean
+        xiaoTheme:
+          type: boolean
+          description: 是否与孝文化直接相关
+      required: [id, name, level, category, description, shortDesc, imageUrl]
+
+    HeritageItemListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/HeritageItem"
+        total:
+          type: number
+        page:
+          type: number
+        limit:
+          type: number
+      required: [items, total, page, limit]
+
+    CategoryListResponse:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/Category"
+      required: [categories]
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        count:
+          type: number
+        icon:
+          type: string
+      required: [id, name, count, icon]
+
+    Artisan:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        level:
+          type: string
+        heritageItem:
+          type: string
+        heritageItemId:
+          type: number
+        bio:
+          type: string
+        avatarUrl:
+          type: string
+        yearsOfPractice:
+          type: number
+        awards:
+          type: array
+          items:
+            type: string
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/ArtisanService"
+      required: [id, name, level, heritageItem, bio, avatarUrl]
+
+    ArtisanService:
+      type: object
+      properties:
+        id:
+          type: number
+        type:
+          type: string
+          enum: [workshop, custom, course]
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        duration:
+          type: string
+        maxParticipants:
+          type: number
+      required: [id, type, title, price]
+
+    ArtisanListResponse:
+      type: object
+      properties:
+        artisans:
+          type: array
+          items:
+            $ref: "#/components/schemas/Artisan"
+        total:
+          type: number
+      required: [artisans, total]
+
+    QuizQuestion:
+      type: object
+      properties:
+        id:
+          type: number
+        question:
+          type: string
+        options:
+          type: array
+          items:
+            type: string
+        difficulty:
+          type: string
+          enum: [beginner, intermediate, expert]
+        category:
+          type: string
+        points:
+          type: number
+      required: [id, question, options, difficulty, points]
+
+    QuizQuestionListResponse:
+      type: object
+      properties:
+        questions:
+          type: array
+          items:
+            $ref: "#/components/schemas/QuizQuestion"
+      required: [questions]
+
+    QuizSubmitRequest:
+      type: object
+      properties:
+        questionId:
+          type: number
+        selectedAnswer:
+          type: number
+      required: [questionId, selectedAnswer]
+
+    QuizSubmitResponse:
+      type: object
+      properties:
+        correct:
+          type: boolean
+        correctAnswer:
+          type: number
+        explanation:
+          type: string
+        pointsEarned:
+          type: number
+        totalPoints:
+          type: number
+      required: [correct, correctAnswer, explanation, pointsEarned, totalPoints]
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        category:
+          type: string
+          enum: [artisan_original, collab, student]
+        description:
+          type: string
+        price:
+          type: number
+        imageUrl:
+          type: string
+        artisanName:
+          type: string
+        heritageItem:
+          type: string
+        stock:
+          type: number
+        rating:
+          type: number
+        reviewCount:
+          type: number
+      required: [id, name, category, description, price, imageUrl]
+
+    ProductListResponse:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+        total:
+          type: number
+      required: [products, total]
+
+    Activity:
+      type: object
+      properties:
+        id:
+          type: number
+        title:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        location:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        imageUrl:
+          type: string
+        status:
+          type: string
+          enum: [upcoming, ongoing, past]
+        registrationUrl:
+          type: string
+        maxParticipants:
+          type: number
+        currentParticipants:
+          type: number
+      required: [id, title, description, type, location, startDate, status]
+
+    ActivityListResponse:
+      type: object
+      properties:
+        activities:
+          type: array
+          items:
+            $ref: "#/components/schemas/Activity"
+      required: [activities]
+
+    AiGenerateRequest:
+      type: object
+      properties:
+        style:
+          type: string
+          enum: [papercut, shadow_puppet, xiao_culture, plaster_carving, kiln]
+          description: 生成风格
+        scene:
+          type: string
+          enum: [poster, phone_case, bookmark, packaging, avatar, greeting_card]
+          description: 应用场景
+        prompt:
+          type: string
+          description: 用户输入的描述
+      required: [style, scene, prompt]
+
+    AiGenerateResponse:
+      type: object
+      properties:
+        imageUrl:
+          type: string
+        style:
+          type: string
+        scene:
+          type: string
+        prompt:
+          type: string
+        generatedAt:
+          type: string
+      required: [imageUrl, style, scene, prompt, generatedAt]
+
+    PlatformStats:
+      type: object
+      properties:
+        nationalItems:
+          type: number
+        provincialItems:
+          type: number
+        municipalItems:
+          type: number
+        artisanCount:
+          type: number
+        productCount:
+          type: number
+        visitorCount:
+          type: number
+        cityName:
+          type: string
+      required: [nationalItems, provincialItems, municipalItems, artisanCount, productCount, visitorCount, cityName]

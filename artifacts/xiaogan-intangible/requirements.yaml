@@ -1,0 +1,20 @@
+packages:
+  "framer-motion": "For page transitions and immersive scroll-triggered animations"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility for merging tailwind classes safely"
+
+images:
+  - path: "artifacts/xiaogan-intangible/public/images/hero-bg.png"
+    description: "Grand traditional Chinese paper-cut style landscape in deep red and warm gold, elegant, depicting ancient architecture and nature, highly detailed"
+    aspect_ratio: "16:9"
+  - path: "artifacts/xiaogan-intangible/public/images/papercut-pattern.png"
+    description: "Traditional Chinese paper-cut decorative border pattern, intricate floral and cloud motifs, deep red on transparent background"
+    aspect_ratio: "16:9"
+  - path: "artifacts/xiaogan-intangible/public/images/dongyong-story.png"
+    description: "Traditional Chinese elegant illustration of the Dong Yong and Seventh Fairy story, standing under a large scholar tree, mural style, warm cream and red tones"
+    aspect_ratio: "16:9"
+
+notes:
+  - Application relies on @workspace/api-client-react for TanStack Query hooks.
+  - Using framer-motion for enhanced visual experience.
+  - Colors are customized to match traditional Chinese paper-cut and cultural heritage themes.
