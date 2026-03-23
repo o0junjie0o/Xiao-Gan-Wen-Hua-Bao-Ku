@@ -1,4 +1,5 @@
 import { Router, type IRouter } from "express";
+import Anthropic from "@anthropic-ai/sdk";
 import { db } from "@workspace/db";
 import { heritageItemsTable, artisansTable, artisanServicesTable, quizQuestionsTable, productsTable, activitiesTable } from "@workspace/db";
 import { eq, and, like, sql } from "drizzle-orm";
@@ -168,11 +169,80 @@ router.get("/activities", async (req, res) => {
 router.post("/ai/generate", async (req, res) => {
   const { style, scene, prompt } = req.body;
 
+  if (!prompt) {
+    return res.status(400).json({ error: "prompt is required" });
+  }
+
+  const styleMap: Record<string, string> = {
+    papercut: "孝感雕花剪纸（以刻刀代剪、镂空精细、红纸黑线为特征的国家级非遗）",
+    shadow_puppet: "云梦皮影（楚皮影流派、牛皮镂刻、夜晚幕布投影演出的传统戏剧）",
+    xiao_culture: "孝文化工笔（以孝感董永传说为题材，宋代工笔重彩风格）",
+    plaster_carving: "应城膏雕（以天然纤维石膏为原料的独特雕刻技艺，洁白细腻）",
+  };
+
+  const sceneMap: Record<string, string> = {
+    poster: "艺术海报（竖版，适合展览宣传）",
+    phone_case: "手机壳图案（正方形构图，居中主体）",
+    bookmark: "书签（细长竖版，精致典雅）",
+    avatar: "社交媒体头像（圆形构图，人物或标志性元素为主体）",
+    greeting_card: "节日贺卡（横版，温馨祝福主题）",
+  };
+
+  const styleName = styleMap[style] || styleMap.papercut;
+  const sceneName = sceneMap[scene] || sceneMap.poster;
+
+  const systemPrompt = `你是孝感非遗文化数字化平台的专属AI文创设计师，精通孝感非物质文化遗产与中国传统美学。
+你的任务是根据用户的创意描述，生成一份完整的文创设计方案，包含：
+1. 【设计主题】一句点睛之语（15字以内）
+2. 【创意概念】3-4句话描述设计理念与文化内涵
+3. 【视觉构成】详细描述画面构图、色彩搭配、主要视觉元素（5-8句）
+4. 【非遗元素】具体说明融入了哪些非遗技艺特征（3-5条，每条一句）
+5. 【文化寓意】诠释作品所传达的孝文化或地域文化精神（2-3句）
+6. 【设计诗句】原创一首配套的四言或五言绝句（4句）
+
+请用专业而富有诗意的中文创作，体现湖北孝感的地域文化特色。`;
+
+  const userMessage = `非遗风格：${styleName}
+应用场景：${sceneName}
+创意描述：${prompt}
+
+请为以上创意生成完整的文创设计方案。`;
+
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    return res.status(500).json({ error: "ANTHROPIC_API_KEY 未配置，请在项目 Secrets 中添加该密钥" });
+  }
+
+  let generatedText = "";
+  let modelUsed = "claude-3-5-sonnet-20241022";
+  let usageInfo: unknown = null;
+
+  try {
+    const client = new Anthropic({ apiKey });
+    const message = await client.messages.create({
+      model: "claude-3-5-sonnet-20241022",
+      max_tokens: 1024,
+      system: systemPrompt,
+      messages: [{ role: "user", content: userMessage }],
+    });
+    generatedText = message.content[0].type === "text" ? message.content[0].text : "";
+    modelUsed = message.model;
+    usageInfo = message.usage;
+  } catch (err: unknown) {
+    const e = err as { status?: number; message?: string };
+    if (e.status === 401) {
+      return res.status(401).json({ error: "ANTHROPIC_API_KEY 无效，请检查 Secrets 中配置的密钥是否正确" });
+    }
+    if (e.status === 429) {
+      return res.status(429).json({ error: "请求过于频繁，请稍后重试" });
+    }
+    return res.status(500).json({ error: `Claude 调用失败: ${e.message || "未知错误"}` });
+  }
+
   const styleImages: Record<string, string[]> = {
     papercut: [
       "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
       "https://images.unsplash.com/photo-1553481187-be93c21490a9?w=800",
-      "https://images.unsplash.com/photo-1547226706-b0c4d3dcef7c?w=800",
     ],
     shadow_puppet: [
       "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800",
@@ -185,22 +255,19 @@ router.post("/ai/generate", async (req, res) => {
     plaster_carving: [
       "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800",
     ],
-    kiln: [
-      "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800",
-    ],
   };
-
   const images = styleImages[style] || styleImages.papercut;
   const imageUrl = images[Math.floor(Math.random() * images.length)];
 
-  await new Promise(resolve => setTimeout(resolve, 1500));
-
   res.json({
+    generatedText,
     imageUrl,
     style,
     scene,
     prompt,
     generatedAt: new Date().toISOString(),
+    model: modelUsed,
+    usage: usageInfo,
   });
 });
 
