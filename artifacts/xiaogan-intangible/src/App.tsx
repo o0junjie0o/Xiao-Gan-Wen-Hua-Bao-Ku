@@ -12,6 +12,7 @@ import Market from "@/pages/Market";
 import AiStudio from "@/pages/AiStudio";
 import Activities from "@/pages/Activities";
 import Culture from "@/pages/Culture";
+import HeritageDetail from "@/pages/HeritageDetail";
 import NotFound from "@/pages/not-found";
 
 // Layout
@@ -32,6 +33,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/museum" component={Museum} />
+        <Route path="/museum/:id" component={HeritageDetail} />
         <Route path="/artisans" component={Artisans} />
         <Route path="/quiz" component={Quiz} />
         <Route path="/market" component={Market} />
