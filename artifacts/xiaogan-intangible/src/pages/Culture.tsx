@@ -232,7 +232,7 @@ export default function Culture() {
             <div className="flex-1 max-w-xs h-px bg-gradient-to-l from-transparent to-primary/30" />
           </div>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-            {"\u6b22\u8fce\u4eb2\u4e34\u5b5d\u611f\u8463\u6c38\u516c\u56ed\uff0c\u6f2b\u6b65\u69d0\u835f\u6811\u4e0b\uff0c\u611f\u53d7\u8fd9\u5ea7\u57ce\u5e02\u7684\u5b5d\u7231\u5e95\u8272\u3002\u60a8\u53ef\u4ee5\u626b\u63cf\u4e0b\u65b9\u4e8c\u7ef4\u7801\u9884\u7ea6\u5168\u666f\u6f2b\u6e38\u4f53\u9a8c\u3002"}
+            {"\u6b22\u8fce\u4eb2\u4e34\u5b5d\u611f\u8463\u6c38\u516c\u56ed\uff0c\u6f2b\u6b65\u69d0\u835f\u6811\u4e0b\uff0c\u611f\u53d7\u8fd9\u5ea7\u57ce\u5e02\u7684\u5b5d\u7231\u5e95\u8272\u3002\u60a8\u53ef\u4ee5\u626b\u63cf\u4e0b\u65b9\u4e8c\u7ef4\u7801\u6b23\u8d4f\u5168\u666f\u6f2b\u6e38\u3002"}
           </p>
           <div className="inline-block p-4 bg-white rounded-2xl shadow-lg border border-border">
             <img
