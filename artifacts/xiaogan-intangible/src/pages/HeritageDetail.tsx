@@ -55,7 +55,7 @@ export default function HeritageDetail() {
       <div className="relative h-[420px] md:h-[520px] overflow-hidden">
         <img
           src={item.imageUrl?.startsWith("http") ? item.imageUrl : `${import.meta.env.BASE_URL}${item.imageUrl}`}
-          alt={item.name}
+          alt={`${item.name} - 孝感${item.category}非遗项目实拍`}
           className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />

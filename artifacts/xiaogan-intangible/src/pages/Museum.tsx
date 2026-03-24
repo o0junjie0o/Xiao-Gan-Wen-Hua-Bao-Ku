@@ -153,7 +153,7 @@ export default function Museum() {
                 <div className="aspect-[4/3] overflow-hidden relative">
                   <img
                     src={item.imageUrl}
-                    alt={item.name}
+                    alt={`${item.name} - 孝感${item.category}非遗项目`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-3 left-3 flex gap-2">
