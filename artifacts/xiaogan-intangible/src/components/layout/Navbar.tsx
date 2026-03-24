@@ -43,9 +43,6 @@ export function Navbar() {
             <button className="p-2 text-primary hover:bg-primary/5 rounded-full transition-colors">
               <Search className="w-5 h-5" />
             </button>
-            <button className="px-5 py-2.5 bg-primary text-primary-foreground font-medium rounded-xl shadow-md shadow-primary/20 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-              预约体验
-            </button>
           </div>
 
           <button 
@@ -74,9 +71,6 @@ export function Navbar() {
               {item.label}
             </Link>
           ))}
-          <button className="mt-4 px-4 py-3 bg-primary text-primary-foreground font-medium rounded-xl shadow-md text-center">
-            预约体验
-          </button>
         </div>
       </motion.div>
     </header>
