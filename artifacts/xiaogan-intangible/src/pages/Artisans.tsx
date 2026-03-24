@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "wouter";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Award, Calendar, ChevronRight } from "lucide-react";
 
@@ -71,10 +71,10 @@ export default function Artisans() {
                   </div>
                 </div>
                 
-                <button className="w-full flex items-center justify-between px-4 py-2.5 bg-background border-2 border-primary/20 hover:border-primary text-primary font-bold rounded-xl transition-colors group">
-                  进入专属主页 
+                <Link href={`/artisans/${artisan.id}`} className="w-full flex items-center justify-between px-4 py-2.5 bg-background border-2 border-primary/20 hover:border-primary text-primary font-bold rounded-xl transition-colors group">
+                  进入专属主页
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
+                </Link>
               </div>
             </motion.div>
           ))}
