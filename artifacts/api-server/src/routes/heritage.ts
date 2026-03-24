@@ -166,40 +166,61 @@ router.get("/activities", async (req, res) => {
   res.json({ activities });
 });
 
+// ─── shared helpers ────────────────────────────────────────────────────────
+const STYLE_MAP: Record<string, string> = {
+  papercut:       "孝感雕花剪纸（以刻刀代剪、镂空精细、红纸黑线为特征的国家级非遗）",
+  shadow_puppet:  "云梦皮影（楚皮影流派、牛皮镂刻、夜晚幕布投影演出的传统戏剧）",
+  xiao_culture:   "孝文化工笔（以孝感董永传说为题材、宋代工笔重彩风格）",
+  plaster_carving:"应城膏雕（以天然纤维石膏为原料的独特雕刻技艺，洁白细腻）",
+};
+
+const STYLE_NAME_SHORT: Record<string, string> = {
+  papercut:       "孝感雕花剪纸",
+  shadow_puppet:  "云梦皮影",
+  xiao_culture:   "孝文化工笔",
+  plaster_carving:"应城膏雕",
+};
+
+const SCENE_MAP: Record<string, string> = {
+  poster:       "艺术海报（竖版，适合展览宣传）",
+  phone_case:   "手机壳图案（正方形构图，居中主体）",
+  bookmark:     "书签（细长竖版，精致典雅）",
+  avatar:       "社交媒体头像（圆形构图，人物或标志性元素为主体）",
+  greeting_card:"节日贺卡（横版，温馨祝福主题）",
+};
+
+function doubaoClient() {
+  const apiKey = process.env.DOUBAO_API_KEY;
+  const baseURL = process.env.DOUBAO_BASE_URL || "https://ark.cn-beijing.volces.com/api/v3";
+  if (!apiKey) throw new Error("DOUBAO_API_KEY_MISSING");
+  return new OpenAI({ apiKey, baseURL });
+}
+
+function handleAiError(err: unknown, res: import("express").Response) {
+  const e = err as { status?: number; message?: string; code?: string };
+  if (e.message === "DOUBAO_API_KEY_MISSING") {
+    return res.status(500).json({ error: "服务暂时不可用，请稍后重试" });
+  }
+  if (e.status === 401) return res.status(401).json({ error: "服务认证失败，请联系管理员" });
+  if (e.status === 429) return res.status(429).json({ error: "当前请求较多，请稍后重试" });
+  if (e.status === 402) return res.status(402).json({ error: "服务额度不足，请联系管理员" });
+  return res.status(500).json({ error: "AI 服务暂时不可用，请稍后重试" });
+}
+// ───────────────────────────────────────────────────────────────────────────
+
+// POST /api/ai/generate  → 豆包文生文
 router.post("/ai/generate", async (req, res) => {
   const { style, scene, prompt } = req.body;
+  if (!prompt) return res.status(400).json({ error: "请填写创意描述" });
 
-  if (!prompt) {
-    return res.status(400).json({ error: "prompt is required" });
-  }
+  const textModel = process.env.DOUBAO_TEXT_MODEL;
+  if (!textModel) return res.status(500).json({ error: "服务暂时不可用，请稍后重试" });
 
-  const apiKey = process.env.DEEPSEEK_API_KEY;
-  const baseUrl = process.env.DEEPSEEK_BASE_URL || "https://api.deepseek.com";
-
-  if (!apiKey) {
-    return res.status(500).json({ error: "DEEPSEEK_API_KEY 未配置，请在项目 Secrets 中添加该密钥" });
-  }
-
-  const styleMap: Record<string, string> = {
-    papercut: "孝感雕花剪纸（以刻刀代剪、镂空精细、红纸黑线为特征的国家级非遗）",
-    shadow_puppet: "云梦皮影（楚皮影流派、牛皮镂刻、夜晚幕布投影演出的传统戏剧）",
-    xiao_culture: "孝文化工笔（以孝感董永传说为题材，宋代工笔重彩风格）",
-    plaster_carving: "应城膏雕（以天然纤维石膏为原料的独特雕刻技艺，洁白细腻）",
-  };
-
-  const sceneMap: Record<string, string> = {
-    poster: "艺术海报（竖版，适合展览宣传）",
-    phone_case: "手机壳图案（正方形构图，居中主体）",
-    bookmark: "书签（细长竖版，精致典雅）",
-    avatar: "社交媒体头像（圆形构图，人物或标志性元素为主体）",
-    greeting_card: "节日贺卡（横版，温馨祝福主题）",
-  };
-
-  const styleName = styleMap[style] || styleMap.papercut;
-  const sceneName = sceneMap[scene] || sceneMap.poster;
+  const styleName = STYLE_MAP[style] || STYLE_MAP.papercut;
+  const sceneName = SCENE_MAP[scene] || SCENE_MAP.poster;
 
   const systemPrompt = `你是孝感非遗文化数字化平台的专属AI文创设计师，精通孝感非物质文化遗产与中国传统美学。
-你的任务是根据用户的创意描述，生成一份完整的文创设计方案，必须严格按照以下结构输出，每个板块用【】标注：
+根据用户的创意描述，生成一份完整的文创设计方案，必须严格按以下结构输出，每板块以【】标注：
 
 【设计主题】一句点睛之语（15字以内）
 
@@ -220,81 +241,89 @@ router.post("/ai/generate", async (req, res) => {
 【设计诗句】
 原创一首配套的五言绝句（四句，换行排列）。
 
-请用专业而富有诗意的中文创作，体现湖北孝感的地域文化特色，禁止使用Markdown格式（如**加粗**或#标题）。`;
+用专业且富有诗意的中文创作，体现湖北孝感地域文化特色，禁止使用Markdown格式。`;
 
-  const userMessage = `非遗风格：${styleName}
-应用场景：${sceneName}
-创意描述：${prompt}
-
-请为以上创意生成完整的文创设计方案。`;
-
-  let generatedText = "";
-  let modelUsed = "deepseek-chat";
-  let usageInfo: unknown = null;
+  const userMessage = `非遗风格：${styleName}\n应用场景：${sceneName}\n创意描述：${prompt}\n\n请生成完整的文创设计方案。`;
 
   try {
-    const client = new OpenAI({
-      apiKey,
-      baseURL: baseUrl,
-    });
-
+    const client = doubaoClient();
     const completion = await client.chat.completions.create({
-      model: "deepseek-chat",
+      model: textModel,
       max_tokens: 1200,
       temperature: 0.85,
       messages: [
         { role: "system", content: systemPrompt },
-        { role: "user", content: userMessage },
+        { role: "user",   content: userMessage },
       ],
     });
 
-    generatedText = completion.choices[0]?.message?.content || "";
-    modelUsed = completion.model || "deepseek-chat";
-    usageInfo = completion.usage;
-  } catch (err: unknown) {
-    const e = err as { status?: number; message?: string; code?: string };
-    if (e.status === 401 || e.code === "invalid_api_key") {
-      return res.status(401).json({ error: "DEEPSEEK_API_KEY 无效，请检查 Secrets 中配置的密钥是否正确" });
-    }
-    if (e.status === 429) {
-      return res.status(429).json({ error: "请求过于频繁，请稍后重试" });
-    }
-    if (e.status === 402) {
-      return res.status(402).json({ error: "DeepSeek 账户余额不足，请充值后重试" });
-    }
-    return res.status(500).json({ error: `DeepSeek 调用失败: ${e.message || "未知错误"}` });
+    const generatedText = completion.choices[0]?.message?.content || "";
+
+    return res.json({
+      generatedText,
+      style,
+      scene,
+      prompt,
+      generatedAt: new Date().toISOString(),
+      model: completion.model || textModel,
+    });
+  } catch (err) {
+    return handleAiError(err, res);
+  }
+});
+
+// POST /api/ai/generate-image  → 豆包文生图
+router.post("/ai/generate-image", async (req, res) => {
+  const { style, scene, prompt, designText } = req.body;
+  if (!prompt) return res.status(400).json({ error: "请填写创意描述" });
+
+  const imageModel = process.env.DOUBAO_IMAGE_MODEL;
+  if (!imageModel) return res.status(500).json({ error: "服务暂时不可用，请稍后重试" });
+
+  const styleShort = STYLE_NAME_SHORT[style] || "孝感非遗";
+  const sceneName   = SCENE_MAP[scene]  || SCENE_MAP.poster;
+
+  // 提取设计文案中"视觉构成"板块作为图片核心描述
+  let visualCore = prompt;
+  if (designText) {
+    const m = designText.match(/【视觉构成】([\s\S]*?)(?=【|$)/);
+    if (m) visualCore = m[1].trim().slice(0, 200);
   }
 
-  const styleImages: Record<string, string[]> = {
-    papercut: [
-      "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
-      "https://images.unsplash.com/photo-1553481187-be93c21490a9?w=800",
-    ],
-    shadow_puppet: [
-      "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800",
-      "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800",
-    ],
-    xiao_culture: [
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
-      "https://images.unsplash.com/photo-1493770348161-369560ae357d?w=800",
-    ],
-    plaster_carving: [
-      "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800",
-    ],
-  };
-  const images = styleImages[style] || styleImages.papercut;
-  const imageUrl = images[Math.floor(Math.random() * images.length)];
+  const imagePrompt =
+    `中国传统${styleShort}风格，${sceneName}设计作品，` +
+    `${visualCore}，` +
+    `国风意境，色彩典雅，细腻精美，高清专业商业插画，无文字，无水印。`;
 
-  res.json({
-    generatedText,
-    imageUrl,
-    style,
-    scene,
-    prompt,
-    generatedAt: new Date().toISOString(),
-    model: modelUsed,
-    usage: usageInfo,
-  });
+  try {
+    const client = doubaoClient();
+    const imgResult = await (client.images.generate as Function)({
+      model: imageModel,
+      prompt: imagePrompt,
+      n: 1,
+      size: "2048x2048",
+      response_format: "url",
+    });
+
+    const item = imgResult?.data?.[0];
+    if (!item) throw new Error("no_image_data");
+
+    const imageUrl    = item.url || null;
+    const imageBase64 = item.b64_json || null;
+
+    return res.json({
+      imageUrl,
+      imageBase64,
+      generatedAt: new Date().toISOString(),
+      model: imageModel,
+    });
+  } catch (err: unknown) {
+    const e = err as { message?: string; status?: number };
+    if (e.message === "no_image_data") {
+      return res.status(500).json({ error: "图片生成服务暂时不可用，请稍后重试" });
+    }
+    return handleAiError(err, res);
+  }
 });
 
 router.get("/stats", async (_req, res) => {
