@@ -240,7 +240,7 @@ export default function Culture() {
               alt="\u5b5d\u5b50\u7960\u5168\u666f\u6f2b\u6e38\u4e8c\u7ef4\u7801"
               className="w-36 h-36 object-contain"
             />
-            <p className="text-xs text-muted-foreground mt-2">{"\u626b\u7801\u9884\u7ea6\u00b7\u5168\u666f\u6f2b\u6e38"}</p>
+            <p className="text-xs text-muted-foreground mt-2">{"\u5168\u666f\u6f2b\u6e38"}</p>
           </div>
         </div>
       </div>
