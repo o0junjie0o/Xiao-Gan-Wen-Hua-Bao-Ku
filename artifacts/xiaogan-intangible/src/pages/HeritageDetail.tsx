@@ -54,9 +54,9 @@ export default function HeritageDetail() {
       {/* Hero Banner */}
       <div className="relative h-[420px] md:h-[520px] overflow-hidden">
         <img
-          src={item.imageUrl}
+          src={item.imageUrl?.startsWith("http") ? item.imageUrl : `${import.meta.env.BASE_URL}${item.imageUrl}`}
           alt={item.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
         <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-12 container mx-auto">
