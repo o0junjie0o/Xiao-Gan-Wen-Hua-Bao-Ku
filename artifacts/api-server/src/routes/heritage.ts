@@ -1,5 +1,5 @@
 import { Router, type IRouter } from "express";
-import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
 import { db } from "@workspace/db";
 import { heritageItemsTable, artisansTable, artisanServicesTable, quizQuestionsTable, productsTable, activitiesTable } from "@workspace/db";
 import { eq, and, like, sql } from "drizzle-orm";
@@ -173,6 +173,13 @@ router.post("/ai/generate", async (req, res) => {
     return res.status(400).json({ error: "prompt is required" });
   }
 
+  const apiKey = process.env.DEEPSEEK_API_KEY;
+  const baseUrl = process.env.DEEPSEEK_BASE_URL || "https://api.deepseek.com";
+
+  if (!apiKey) {
+    return res.status(500).json({ error: "DEEPSEEK_API_KEY 未配置，请在项目 Secrets 中添加该密钥" });
+  }
+
   const styleMap: Record<string, string> = {
     papercut: "孝感雕花剪纸（以刻刀代剪、镂空精细、红纸黑线为特征的国家级非遗）",
     shadow_puppet: "云梦皮影（楚皮影流派、牛皮镂刻、夜晚幕布投影演出的传统戏剧）",
@@ -192,15 +199,28 @@ router.post("/ai/generate", async (req, res) => {
   const sceneName = sceneMap[scene] || sceneMap.poster;
 
   const systemPrompt = `你是孝感非遗文化数字化平台的专属AI文创设计师，精通孝感非物质文化遗产与中国传统美学。
-你的任务是根据用户的创意描述，生成一份完整的文创设计方案，包含：
-1. 【设计主题】一句点睛之语（15字以内）
-2. 【创意概念】3-4句话描述设计理念与文化内涵
-3. 【视觉构成】详细描述画面构图、色彩搭配、主要视觉元素（5-8句）
-4. 【非遗元素】具体说明融入了哪些非遗技艺特征（3-5条，每条一句）
-5. 【文化寓意】诠释作品所传达的孝文化或地域文化精神（2-3句）
-6. 【设计诗句】原创一首配套的四言或五言绝句（4句）
+你的任务是根据用户的创意描述，生成一份完整的文创设计方案，必须严格按照以下结构输出，每个板块用【】标注：
 
-请用专业而富有诗意的中文创作，体现湖北孝感的地域文化特色。`;
+【设计主题】一句点睛之语（15字以内）
+
+【创意概念】
+3-4句话描述设计理念与文化内涵。
+
+【视觉构成】
+详细描述画面构图、色彩搭配、主要视觉元素，5-8句话。
+
+【非遗元素】
+- 融入的第一个非遗技艺特征
+- 融入的第二个非遗技艺特征
+- 融入的第三个非遗技艺特征
+
+【文化寓意】
+诠释作品所传达的孝文化或地域文化精神，2-3句话。
+
+【设计诗句】
+原创一首配套的五言绝句（四句，换行排列）。
+
+请用专业而富有诗意的中文创作，体现湖北孝感的地域文化特色，禁止使用Markdown格式（如**加粗**或#标题）。`;
 
   const userMessage = `非遗风格：${styleName}
 应用场景：${sceneName}
@@ -208,35 +228,41 @@ router.post("/ai/generate", async (req, res) => {
 
 请为以上创意生成完整的文创设计方案。`;
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    return res.status(500).json({ error: "ANTHROPIC_API_KEY 未配置，请在项目 Secrets 中添加该密钥" });
-  }
-
   let generatedText = "";
-  let modelUsed = "claude-3-5-sonnet-20241022";
+  let modelUsed = "deepseek-chat";
   let usageInfo: unknown = null;
 
   try {
-    const client = new Anthropic({ apiKey });
-    const message = await client.messages.create({
-      model: "claude-3-5-sonnet-20241022",
-      max_tokens: 1024,
-      system: systemPrompt,
-      messages: [{ role: "user", content: userMessage }],
+    const client = new OpenAI({
+      apiKey,
+      baseURL: baseUrl,
     });
-    generatedText = message.content[0].type === "text" ? message.content[0].text : "";
-    modelUsed = message.model;
-    usageInfo = message.usage;
+
+    const completion = await client.chat.completions.create({
+      model: "deepseek-chat",
+      max_tokens: 1200,
+      temperature: 0.85,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userMessage },
+      ],
+    });
+
+    generatedText = completion.choices[0]?.message?.content || "";
+    modelUsed = completion.model || "deepseek-chat";
+    usageInfo = completion.usage;
   } catch (err: unknown) {
-    const e = err as { status?: number; message?: string };
-    if (e.status === 401) {
-      return res.status(401).json({ error: "ANTHROPIC_API_KEY 无效，请检查 Secrets 中配置的密钥是否正确" });
+    const e = err as { status?: number; message?: string; code?: string };
+    if (e.status === 401 || e.code === "invalid_api_key") {
+      return res.status(401).json({ error: "DEEPSEEK_API_KEY 无效，请检查 Secrets 中配置的密钥是否正确" });
     }
     if (e.status === 429) {
       return res.status(429).json({ error: "请求过于频繁，请稍后重试" });
     }
-    return res.status(500).json({ error: `Claude 调用失败: ${e.message || "未知错误"}` });
+    if (e.status === 402) {
+      return res.status(402).json({ error: "DeepSeek 账户余额不足，请充值后重试" });
+    }
+    return res.status(500).json({ error: `DeepSeek 调用失败: ${e.message || "未知错误"}` });
   }
 
   const styleImages: Record<string, string[]> = {
