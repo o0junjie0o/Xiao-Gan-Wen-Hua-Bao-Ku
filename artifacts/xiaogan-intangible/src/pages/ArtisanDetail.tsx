@@ -72,28 +72,31 @@ const ARTISANS = [
     milestones: [
       {
         year: "1972",
-        event:
-          "\u8fdb\u5165\u5b5d\u611f\u5de5\u827a\u7f8e\u672f\u5382\uff0c\u968f\u80e1\u7b3b\u542f\u5927\u5e08\u5b66\u827a\uff0c\u6b63\u5f0f\u8e8f\u4e0a\u526a\u7eb8\u4f20\u627f\u4e4b\u8def",
+        event: "进入孝感工艺美术厂，拜剪纸大师胡筠启为师，正式学习雕花剪纸技艺",
       },
       {
-        year: "1987",
+        year: "1973",
         event:
-          "\u4f5c\u54c1\u300a\u53cc\u51e4\u671d\u9633\u300b\u5165\u9009\u4e2d\u56fd\u6c11\u95f4\u827a\u672f\u5c55\uff0c\u8d74\u6cd5\u56fd\u3001\u82cf\u8054\u7b49\u56fd\u5c55\u51fa",
+          "与师父胡筠启共同革新孝感剪纸技艺，创制出立体剪纸，代表作《百凤图》问世",
       },
       {
         year: "2008",
+        event: "被湖北省人民政府授予“湖北省工艺美术名人”称号",
+      },
+      {
+        year: "2011",
         event:
-          '\u88ab\u6388\u4e88"\u6e56\u5317\u7701\u5de5\u827a\u7f8e\u672f\u540d\u4eba"\u79f0\u53f7',
+          "受邀参加“全国百名非物质文化遗产代表性传承人迎春展示活动”，作品被国家文化部非遗司永久收藏",
       },
       {
         year: "2012",
         event:
-          "\u88ab\u8ba4\u5b9a\u4e3a\u7b2c\u56db\u6279\u56fd\u5bb6\u7ea7\u975e\u7269\u6587\u5316\u9057\u4ea7\uff08\u5b5d\u611f\u96d5\u82b1\u526a\u7eb8\uff09\u4ee3\u8868\u6027\u4f20\u627f\u4eba",
+          "被认定为国家级非物质文化遗产项目剪纸（孝感雕花剪纸）代表性传承人",
       },
       {
-        year: "2015",
+        year: "近年",
         event:
-          "\u5efa\u7acb\u7ba1\u4e3d\u82b3\u5927\u5e08\u5de5\u4f5c\u5ba4\uff0c\u7cfb\u7edf\u5e26\u5f92\u6388\u827a\uff0c\u63a8\u52a8\u975e\u9057\u6d3b\u6001\u4f20\u627f",
+          "深耕“破刀”技艺传承，通过授徒、进校园、产业化合作等方式，推动孝感雕花剪纸活态传承",
       },
     ],
   },
@@ -103,16 +106,16 @@ const ARTISANS = [
     level: "\u56fd\u5bb6\u7ea7",
     item: "\u4e91\u68a6\u76ae\u5f71\u620f",
     itemEn: "Yunmeng Shadow Puppetry",
-    years: 55,
+    years: 48,
     avatar:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80",
+      "https://pic.baike.soso.com/ugc/baikepic2/15422/20220506120818-1761484793_jpeg_600_338_42950.jpg/0",
     heroBg:
       "https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&q=80",
     location: "\u5b5d\u611f\u5e02\u4e91\u68a6\u53bf",
     born: "1952\u5e74",
-    bio: "\u79e6\u793c\u521a\uff0c\u4e91\u68a6\u76ae\u5f71\u620f\u56fd\u5bb6\u7ea7\u4ee3\u8868\u6027\u4f20\u627f\u4eba\uff0c\u8fde\u7eed\u641e\u76ae\u5f7155\u5e74\u3002\u5341\u4e09\u5c81\u8ddf\u7236\u4eb2\u5b66\u96d5\u523b\u76ae\u5f71\uff0c\u591a\u5e74\u6765\u5168\u8eab\u5fc3\u5165\u5730\u8d21\u732e\u4e8e\u4e91\u68a6\u76ae\u5f71\u620f\u7684\u4f20\u627f\u3001\u521b\u65b0\u4e0e\u4e1a\u754c\u63a8\u5e7f\u3002\u5176\u76ae\u5f71\u4f5c\u54c1\u5de5\u827a\u7b80\u7ec3\u800c\u5bcc\u6709\u795e\u97f5\uff0c\u88ab\u6536\u85cf\u4e8e\u591a\u5bb6\u535a\u7269\u9986\u3002",
+    bio: "秦礼刚，云梦皮影戏国家级代表性传承人，深耕皮影艺术四十余载。他 29 岁拜老艺人刘修昌、皮影表演艺术家陆春元为师，正式踏入皮影领域，此后数十年如一日，全身心投入云梦皮影戏的传承、创新与推广，创下了年演出 364 天（仅除夕休息）的惊人纪录。",
     story:
-      "\u5341\u4e09\u5c81\u7684\u79e6\u793c\u521a\uff0c\u7b2c\u4e00\u6b21\u6478\u5230\u90a3\u5f20\u5c0f\u5c0f\u7684\u724c\u5200\uff0c\u5c31\u518d\u4e5f\u653e\u4e0d\u4e0b\u4e86\u3002\u4e91\u68a6\u76ae\u5f71\u620f\u662f\u4e2d\u56fd\u6700\u53e4\u8001\u7684\u76ae\u5f71\u6d41\u6d3e\u4e4b\u4e00\uff0c\u7528\u5c14\u9e7f\u76ae\u78a7\u523b\u800c\u6210\u7684\u5404\u8272\u76ae\u5f71\uff0c\u5728\u706f\u5149\u4e0b\u6539\u53d8\u5f62\u6001\u3001\u751f\u52a8\u534a\u900f\u660e\u3002\u793c\u521a\u8bf4\uff0c\u6bcf\u4e00\u5f20\u76ae\u5f71\u5c11\u5219\u51e0\u5343\u5200\uff0c\u591a\u5219\u4e0a\u4e07\u5200\uff0c\u5176\u4e2d\u8857\u5934\u5c0f\u5203\u5e93\u4e00\u5c81\u5c31\u4e70\u4e0d\u5230\u7684\u7cbe\u7ec6\u5978\u5de5\u3002\u4f51\u7237\u964d\u670d\u4e4b\u5e74\u4ed6\u4f5c\u51fa\u4e86\u96c6\u5927\u6210\u7684\u76ae\u5f71\u5168\u5957\uff0c\u5171\u8ba1\u6587\u7269\u76ae\u5f71\u4e94\u767e\u591a\u4ef6\uff0c\u6210\u4e3a\u591a\u5bb6\u7701\u7ea7\u3001\u56fd\u5bb6\u7ea7\u6587\u7269\u6536\u85cf\u5b9a\u7684\u767b\u5f55\u5c55\u54c1\u3002",
+      "秦礼刚与皮影的缘分，始于而立之年的一次偶然邂逅。29 岁那年，他被云梦皮影灯影下活灵活现的人物深深打动，毅然拜老艺人刘修昌、皮影表演艺术家陆春元为师，踏上了这条 “大器晚成” 的从艺之路。彼时的他，早已过了学艺的黄金年龄，却凭着一股不服输的韧劲，日夜钻研雕刻与表演。为了让皮影在灯光下更通透生动，他大胆革新，摒弃了传统昂贵厚重的牛皮，尝试用 X 光胶片、聚乙烯薄膜等现代材料替代，让这门古老艺术在新材料中重获新生。",
     awards: [
       "\u4e2d\u56fd\u76ae\u5f71\u827a\u672f\u5927\u5e08\u8363\u8a89\u79f0\u53f7",
       "\u6e56\u5317\u7701\u975e\u9057\u4f20\u627f\u5148\u8fdb\u4e2a\u4eba",
