@@ -41,8 +41,7 @@ export default function Artisans() {
       name: "伍柏林",
       level: "省级",
       item: "应城膏雕",
-      years: 40,
-      avatar:
+      years: "40+",      avatar:
         "https://p3-sdbk2-media.byteimg.com/tos-cn-i-xv4ileqgde/a9dce9a00c9f4d2ab12b75af21f3a75d~tplv-xv4ileqgde-cspdq:256:256:q30.image",
       services: ["石膏摆件定制"],
     },

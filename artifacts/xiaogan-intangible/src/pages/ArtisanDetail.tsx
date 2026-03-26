@@ -102,40 +102,38 @@ const ARTISANS = [
   },
   {
     id: 2,
-    name: "\u79e6\u793c\u521a",
-    level: "\u56fd\u5bb6\u7ea7",
-    item: "\u4e91\u68a6\u76ae\u5f71\u620f",
-    itemEn: "Yunmeng Shadow Puppetry",
-    years: 48,
+    name: "秦礼刚",
+    level: "国家级代表性传承人",
+    item: "云梦皮影戏",
+    itemEn: "Yunmeng Shadow Play",
+    years: "48",
     avatar:
       "https://pic.baike.soso.com/ugc/baikepic2/15422/20220506120818-1761484793_jpeg_600_338_42950.jpg/0",
     heroBg:
       "https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&q=80",
     location: "\u5b5d\u611f\u5e02\u4e91\u68a6\u53bf",
-    born: "1952\u5e74",
+    born: "1949\u5e74",
     bio: "秦礼刚，云梦皮影戏国家级代表性传承人，深耕皮影艺术四十余载。他 29 岁拜老艺人刘修昌、皮影表演艺术家陆春元为师，正式踏入皮影领域，此后数十年如一日，全身心投入云梦皮影戏的传承、创新与推广，创下了年演出 364 天（仅除夕休息）的惊人纪录。",
     story:
       "秦礼刚与皮影的缘分，始于而立之年的一次偶然邂逅。29 岁那年，他被云梦皮影灯影下活灵活现的人物深深打动，毅然拜老艺人刘修昌、皮影表演艺术家陆春元为师，踏上了这条 “大器晚成” 的从艺之路。彼时的他，早已过了学艺的黄金年龄，却凭着一股不服输的韧劲，日夜钻研雕刻与表演。为了让皮影在灯光下更通透生动，他大胆革新，摒弃了传统昂贵厚重的牛皮，尝试用 X 光胶片、聚乙烯薄膜等现代材料替代，让这门古老艺术在新材料中重获新生。",
     awards: [
-      "\u4e2d\u56fd\u76ae\u5f71\u827a\u672f\u5927\u5e08\u8363\u8a89\u79f0\u53f7",
-      "\u6e56\u5317\u7701\u975e\u9057\u4f20\u627f\u5148\u8fdb\u4e2a\u4eba",
-      "\u5168\u56fd\u76ae\u5f71\u5ba4\u5185\u5355\u4eba\u8868\u6f14\u91d1\u5956",
-      "\u7b2c\u4e09\u5c4a\u4e2d\u56fd\u6c11\u95f4\u827a\u672f\u5c55\u6f14\u516c\u8def\u9996\u5e24\u5ced",
+      "中国皮影艺术大师荣誉称号",
+      "湖北省非遗传承先进个人",
+      "首届中国唐山国际皮影艺术展演最佳表演奖",
+      "第三十一届国际木偶联合会最佳传承奖",
     ],
     gallery: [
       {
-        url: "https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&w=600&q=80",
-        caption: "\u300a\u5929\u4ed9\u914d\u300b\u76ae\u5f71\u5168\u5957",
+        url: "https://www.banmo.com/upload/default/2019-03-22/6a50efb57a5124bdb481dd1289d65e01.jpg",
+        caption: "经典作品",
       },
       {
-        url: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=600&q=80",
-        caption:
-          "\u8d62\u671b\u5c71\u7b2c\u4e00\u5c45\u76ae\u5f71\u66f2\u76ee\u8868\u6f14",
+        url: "https://www.banmo.com/upload/default/2019-03-22/a99128a7d30189ea54fc7f6f7b7d7c64.jpg",
+        caption: "刘备",
       },
       {
-        url: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=600&q=80",
-        caption:
-          "\u5de5\u5f62\u516c\u4e25\u7684\u5168\u5957\u76ae\u5f71\u5f20\u6253\u5c55\u793a",
+        url: "https://www.banmo.com/upload/default/2019-03-22/c06369aacfa1b7e7d8856e046e06bef8.jpg",
+        caption: "诸葛亮",
       },
     ],
     services: [
@@ -158,66 +156,65 @@ const ARTISANS = [
     ],
     milestones: [
       {
-        year: "1965",
-        event:
-          "\u8ddf\u968f\u7236\u4eb2\u5165\u884c\uff0c\u5f00\u59cb\u5c66\u7a76\u4e91\u68a6\u76ae\u5f71\u7b2c\u4e00\u5c42\u5200\u6cd5",
+        year: "1978",
+        event: "拜老艺人刘修昌为师，正式踏入皮影艺术领域",
       },
       {
-        year: "1980",
-        event:
-          "\u4e2d\u8282\u5e74\u4ee3\uff0c\u6210\u5168\u53bf\u76ae\u5f71\u8001\u827a\u4eba\u4e2d\u6280\u8827\u6700\u5168\u8005",
+        year: "1983",
+        event: "拜皮影表演艺术家陆春元为师，成为其关门弟子，精进雕刻与表演技艺",
       },
       {
-        year: "2001",
-        event:
-          "\u4ee3\u8868\u6e56\u5317\u7701\u51fa\u5e2d\u4e2d\u56fd\u9996\u5c4a\u975e\u9057\u535a\u89c8\u4f1a\u5e76\u5f53\u573a\u8868\u6f14",
+        year: "1985",
+        event: "创办“梦泽影戏馆”，坚持常年演出，创下年演364场的纪录",
       },
       {
-        year: "2008",
-        event:
-          "\u88ab\u6388\u4e91\u68a6\u76ae\u5f71\u620f\u56fd\u5bb6\u7ea7\u4ee3\u8868\u6027\u4f20\u627f\u4eba",
+        year: "2010",
+        event: "代表湖北参加中国首届非物质文化遗产博览会，现场展演云梦皮影",
       },
       {
-        year: "2020",
+        year: "2012",
         event:
-          "\u5f00\u8bfe\u76f4\u64ad\u5e73\u53f0\uff0c\u5168\u7f51\u76f4\u64ad\u76ae\u5f71\u88fd\u4f5c\u8fc7\u7a0b\u5438\u5f15\u903e\u767e\u4e07\u89c2\u770b",
+          "被认定为国家级非物质文化遗产项目皮影戏（云梦皮影戏）代表性传承人",
+      },
+      {
+        year: "近年",
+        event: "通过进校园、进社区及新媒体传播，推动云梦皮影的2\�态传承",
       },
     ],
   },
   {
     id: 3,
-    name: "\u4f59\u8fbe\u96c4",
-    level: "\u7701\u7ea7",
-    item: "\u5b5d\u611f\u9ebb\u7cd6",
+    name: "何宣川",
+    level: "省级传承人",
+    item: "孝感麻糖",
     itemEn: "Xiaogan Sesame Candy",
-    years: 30,
+    years: "30",
     avatar:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80",
+      "https://p3-pc-sign.douyinpic.com/tos-cn-p-0015/osbMtC7oBSnD9NQDvFeVfIKeBqMDQACZRwCE8A~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_PUBLISH&sc=cover&se=true&sh=323_430&x-expires=2089778400&x-signature=q9IgZ0A6YzDnPJvbpQl22WVudRM%3D",
     heroBg:
       "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80",
     location: "\u5b5d\u611f\u5e02\u5b5d\u5357\u533a",
-    born: "1970\u5e74",
-    bio: "\u4f59\u8fbe\u96c4\uff0c\u5b5d\u611f\u9ebb\u7cd6\u7701\u7ea7\u4f20\u627f\u4eba\u3002\u5341\u516b\u5c81\u8fdb\u5165\u8001\u5c57\u9ebb\u7cd6\u5382\u5b66\u5f92\uff0c30\u5e74\u513f\u53ea\u5e72\u4e00\u4ef6\u4e8b\u2014\u2014\u628a\u5b5d\u611f\u9ebb\u7cd6\u505a\u5230\u6700\u597d\u3002\u5176\u9ebb\u7cd6\u9178\u751c\u5368\u5b9c\u3001\u9999\u8106\u4e0d\u7ca8\u7259\uff0c\u88ab\u8bc4\u4e3a\u5b5d\u611f\u9ebb\u7cd6\u7684\u6d3b\u5316\u5386\u53f2\u6559\u79d1\u4e66\u3002",
-    story:
-      "\u5b5d\u611f\u9ebb\u7cd6\u5df2\u6709\u903e\u5343\u5e74\u5386\u53f2\u3002\u516b\u5e74\u524d\u5929\u4e2d\u6307\u5b9a\u4e3a\u8d21\u54c1\uff0c\u56e0\u5176\u5236\u4f5c\u5de5\u827a\u590d\u6742\u3001\u88ab\u79f0\u4e3a\u4e2d\u56fd\u56db\u5927\u540d\u7cd6\u4e4b\u4e00\u3002\u4f59\u8fbe\u96c4\u4e3b\u5f20\u4e0d\u6362\u9a6c\u3001\u4e0d\u6362\u5c71\u6cc9\u6c34\uff0c\u4e0d\u8c03\u5546\u4e1a\u5546\u4e1a\u5316\u914d\u65b9\u3002\u4ed6\u8bf4\uff0c\u5b5d\u611f\u9ebb\u7cd6\u7684\u7075\u9b42\u5728\u4e8e\u201c\u624b\u5de5\u201d\u4e24\u5b57\uff0c\u5b8c\u5168\u624b\u5de5\u638c\u63e7\u706b\u5019\u548c\u62c9\u9ebb\u624b\u6cd5\u624d\u5c55\u5f97\u5f00\u90a3\u53e3\u72ec\u7279\u7684\u9999\u8106\u5473\u9053\u3002\u4e3a\u4e86\u603b\u7ed3\u7ecf\u9a8c\uff0c\u4ed6\u628a\u5236\u5f0f\u5b5d\u611f\u9ebb\u7cd6\u7684\u6574\u4e2a\u5de5\u5e8f\u6574\u7406\u6210\u56fe\u8868\u6d41\u7a0b\uff0c\u7b2c\u4e00\u6b21\u5c06\u5168\u957f\u8fc7\u7a0b\u516c\u5f00\u6559\u5b66\uff0c\u5e26\u52a8\u4e86\u8d76\u8d85\u4e00\u767e\u4eba\u7684\u5c0f\u4f20\u627f\u76d8\u3002",
+    born: "1963\u5e74",
+    bio: "何宣川，孝感麻糖省级传承人。自幼投身于孝感麻糖的制作与传承，深耕麻糖制作技艺数十载，在保留传统工艺精髓的基础上，不断探索创新，致力于让这一老字号风味与文化焕发新生。他制作的麻糖甜而不腻、香酥适口，既延续了经典的老味道，又贴合现代口感需求，是孝感麻糖传统技艺的忠实守护者与积极传播者。",
+    story: `孝感麻糖已有逾千年历史，八百年前曾被指定为贡品，因其制作工艺复杂，被称为中国四大名糖之一。何宣川主张坚守传统原料、不换山泉水、不调商业化配方。他说，孝感麻糖的灵魂在于“手工”二字，只有完全手工掌控火候和拉麻手法，才能舒展那口独特的香脆味道。为了传承技艺，他将制作孝感麻糖的完整工序整理成图表流程，公开教学传艺，带动了数十位年轻传承人，让这门老手艺在新时代继续飘香。`,
     awards: [
-      "\u5168\u56fd\u98df\u54c1\u5de5\u4e1a\u535a\u89c8\u4f1a\u91d1\u5956",
-      "\u6e56\u5317\u7701\u975e\u9057\u9879\u76ee\u4f20\u627f\u4e2a\u4eba\u5956",
-      "\u5b5d\u611f\u9ebb\u7cd6\u5236\u4f5c\u6280\u827a\u7701\u7ea7\u4f20\u627f\u4eba",
-      "\u5b5d\u611f\u5e02\u5342\u4e1a\u529b\u9e21\u9ec4\u91d1\u8363\u8a89\u8bc1\u4e66",
+      "孝感麻糖制作技艺省级非物质文化遗产代表性传承人",
+      "孝感市非物质文化遗产麻糖制作技艺市级传承人",
+      "孝感麻糖米酒厂“终身贡献奖”",
+      "湖北省非遗保护工作先进个人",
     ],
     gallery: [
       {
-        url: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80",
-        caption: "\u4f20\u7edf\u624b\u5de5\u76f4\u706b\u70e7\u5236\u9ebb\u7cd6",
+        url: "https://ts4.tc.mm.bing.net/th/id/OIP-C.7cdHfOQdMmnR4XNtY9fcWgHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
+        caption: "麻糖",
       },
       {
-        url: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80",
-        caption: "\u5b5d\u611f\u9ebb\u7cd6\u793c\u76d2\u5c55\u793a",
+        url: "https://ts2.tc.mm.bing.net/th/id/OIP-C.EdP461hDNad5ZE_qo4mJMgAAAA?rs=1&pid=ImgDetMain&o=7&rm=3",
+        caption: "麻糖",
       },
       {
-        url: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=600&q=80",
-        caption: "\u5207\u5272\u5de5\u5e8f\u5c55\u793a",
+        url: "https://ts2.tc.mm.bing.net/th/id/OIP-C.S9Fcbwc_ZQpjBzt_LaqSMQAAAA?rs=1&pid=ImgDetMain&o=7&rm=3",
+        caption: "麻糖",
       },
     ],
     services: [
@@ -268,41 +265,38 @@ const ARTISANS = [
   },
   {
     id: 4,
-    name: "\u674e\u5fd7\u660e",
-    level: "\u7701\u7ea7",
-    item: "\u5e94\u57ce\u818f\u96d5",
+    name: "伍柏林",
+    level: "省级",
+    item: "应城膏雕",
     itemEn: "Yingcheng Gypsum Carving",
-    years: 25,
+    years: "40+年",
     avatar:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80",
+      "https://p3-sdbk2-media.byteimg.com/tos-cn-i-xv4ileqgde/a9dce9a00c9f4d2ab12b75af21f3a75d~tplv-xv4ileqgde-cspdq:256:256:q30.image",
     heroBg:
       "https://images.unsplash.com/photo-1517999349371-1ffe9e8d8a3e?auto=format&fit=crop&q=80",
     location: "\u5b5d\u611f\u5e02\u5e94\u57ce\u5e02",
-    born: "1978\u5e74",
-    bio: "\u674e\u5fd7\u660e\uff0c\u5e94\u57ce\u818f\u96d5\u7701\u7ea7\u4f20\u627f\u4eba\u3002\u5e94\u57ce\u4ea7\u77f3\u818f\u5386\u53f2\u60a0\u4e45\uff0c\u674e\u5fd7\u660e\u5c06\u4f20\u7edf\u77f3\u818f\u96d5\u523b\u4e0e\u73b0\u4ee3\u8bbe\u8ba1\u7406\u5ff5\u5de7\u5999\u878d\u5408\uff0c\u4f5c\u54c1\u5546\u4e1a\u4ef7\u503c\u548c\u827a\u672f\u8ffd\u6c42\u5747\u5c42\u6b21\u9ad8\uff0c\u4e3a\u5e94\u57ce\u818f\u96d5\u8d70\u5411\u5168\u56fd\u5e02\u573a\u5f00\u8f9f\u4e86\u4e00\u6761\u65b0\u8def\u5f84\u3002",
+    born: "1950\u5e74",
+    bio: "伍柏林，应城膏雕省级传承人。应城石膏雕刻技艺历史悠久，伍柏林深耕此道四十余年，将传统膏雕技法与现代审美巧妙融合，既保留了古朴厚重的非遗韵味，又赋予作品符合当代市场的实用价值，为应城膏雕的传承与产业化发展开辟了新路径。",
     story:
-      "\u5e94\u57ce\u662f\u4e2d\u56fd\u5185\u9646\u6700\u5927\u7684\u5929\u7136\u5e38\u5c71\u77f3\u818f\u4ea7\u5730\uff0c\u5929\u7136\u77f3\u818f\u5341\u5206\u7ec6\u814c\uff0c\u8482\u5ea6\u9ad8\u3002\u674e\u5fd7\u660e\u5e74\u8f7b\u65f6\u5728\u77f3\u818f\u62cd\u5356\u884c\u8d44\u4e86\u5e74\uff0c\u53d1\u73b0\u5e22\u7240\u76d2\u5e95\u7684\u6296\u888b\u5965\u79d8\u662f\u9999\u6e29\u540e\u624b\u96d5\u7684\u77f3\u818f\u6d6e\u96d5\u3002\u81ea\u6b64\uff0c\u4ed6\u4ea7\u751f\u4e86\u7528\u77f3\u818f\u96d5\u5200\u62fc\u5c31\u6b64\u957f\u8fdc\u5c42\u91cf\u7684\u60f3\u6cd5\u3002\u4e94\u5e74\u81ea\u5b66\u3001\u8d70\u8bbf\u521a\u5de5\u3001\u8fdb\u8fdb\u51fa\u51fa\u89e3\u6790\u4e2d\u56fd\u4e0e\u897f\u65b9\u96d5\u523b\u725b\u8ddf\u77f3\u818f\u5de5\u827a\u7684\u8de8\u7bc4\u5408\u5f0f\uff0c\u5f62\u6210\u4e86\u72ec\u4e00\u65e0\u4e8c\u7684\u5e94\u57ce\u818f\u96d5\u65b0\u6d41\u6d3e\u3002",
+      "应城是中国内陆最大的天然石膏产地，天然石膏质地细腻、硬度适中。伍柏林 16 岁时跟随父亲学习膏雕技艺，耳濡目染间对这门手艺产生了深厚情缘。早年他在粉笔厂、膏粉厂做工，始终放不下对石膏雕刻的热爱，改革开放后牵头组建应城工艺膏雕厂，潜心钻研近五十年。他走访民间老艺人，改良传统雕刻技法，用树脂法将 “单体” 雕刻升级为 “双层” 雕刻，极大提升了作品表现力；同时融合现代审美与实用需求，设计出 400 余种膏雕产品，让古朴的应城膏雕走向全国、远销海外，形成了兼具传统韵味与时代活力的应城膏雕新流派。",
     awards: [
-      "\u6e56\u5317\u5de5\u8279\u7f8e\u672f\u5c55\u91d1\u5956",
-      "\u5e94\u57ce\u5e02\u53cc\u767e\u5de5\u7a0b\u521b\u5efa\u8001\u5e08\u8363\u8a89\u79f0\u53f7",
-      "\u7b2c\u4e8c\u5c4a\u6e56\u5317\u5de5\u8279\u7f8e\u672f\u5de5\u4e1a\u575a\u5b88\u5956",
-      "\u5168\u56fd\u77f3\u818f\u4ea7\u54c1\u8bbe\u8ba1\u5927\u8d5b\u91d1\u5956",
+      "应城膏雕省级非物质文化遗产代表性传承人",
+      "湖北工艺美术大师荣誉称号",
+      "全国石膏工艺创作大赛金奖",
+      "孝感市优秀非遗传承人",
     ],
     gallery: [
       {
-        url: "https://images.unsplash.com/photo-1517999349371-1ffe9e8d8a3e?auto=format&fit=crop&w=600&q=80",
-        caption:
-          "\u300a\u5929\u5730\u4e4b\u5408\u300b\u77f3\u818f\u96d5\u5237\u5e73\u5c55\u5c01\u9762\u4f5c\u54c1",
+        url: "https://p3-doubao-search-sign.byteimg.com/labis/image/940fc78e5bf39d341c638998e5eca7ae~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1779634571&x-signature=hHIyFGHQakRwIJXbTL9lLYutAeg%3D",
+        caption: "膏雕",
       },
       {
-        url: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80",
-        caption:
-          "\u5e94\u57ce\u518d\u751f\u2014\u2014\u4e00\u7cfb\u5217\u77f3\u818f\u56fe\u817e\u5361",
+        url: "https://p26-doubao-search-sign.byteimg.com/labis/47a8cefa03b123d2afb57b88d1765c80~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1790002614&x-signature=hqZnxNnvDBZvouFRWZg1dlhbNbs%3D",
+        caption: "膏雕",
       },
       {
-        url: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=600&q=80",
-        caption:
-          "\u5c71\u6c34\u4eba\u5c45\u3010\u5e94\u57ce\u3011\u77f3\u818f\u6d6e\u96d5\u4f5c\u54c1\u5c55",
+        url: "https://p11-doubao-search-sign.byteimg.com/tos-cn-i-tjoges91tu/TZtDSSJFCk1y3P~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1779634571&x-signature=20XeeBwUn1%2FGWCA8DPOWNX70flU%3D",
+        caption: "膏雕",
       },
     ],
     services: [
@@ -325,29 +319,24 @@ const ARTISANS = [
     ],
     milestones: [
       {
-        year: "1999",
-        event:
-          "\u5f00\u59cb\u8ddf\u968f\u5e94\u57ce\u521a\u5de5\u82d7\u5c71\u9ad8\u624b\u5c66\u7a76\u5929\u7136\u77f3\u818f\u7279\u6027",
+        year: "1966",
+        event: "16岁随父亲学习应城膏雕技艺，开启从艺之路",
       },
       {
-        year: "2005",
-        event:
-          "\u9996\u6279\u4e2a\u4eba\u4f5c\u54c1\u5728\u5e94\u57ce\u5e02\u5de5\u8279\u7f8e\u672f\u8282\u4e2d\u8eba\u5c55\uff0c\u83b7\u91d1\u5956",
+        year: "1985",
+        event: "牵头组建应城市工艺膏雕厂，推动膏雕产业化发展",
       },
       {
-        year: "2010",
-        event:
-          "\u5efa\u7acb\u5e94\u57ce\u818f\u96d5\u5de5\u4f5c\u5ba4\uff0c\u5f15\u5165\u73b0\u4ee3\u8bbe\u8ba1\u7406\u5ff5\u521b\u65b0\u4ea7\u54c1\u7ebf",
+        year: "2009",
+        event: "被认定为应城膏雕市级非物质文化遗产代表性传承人",
       },
       {
-        year: "2017",
-        event:
-          "\u88ab\u6388\u4e88\u5e94\u57ce\u818f\u96d5\u7701\u7ea7\u4f20\u627f\u4eba\u8d44\u683c",
+        year: "2015",
+        event: "被认定为应城膏雕省级非物质文化遗产代表性传承人",
       },
       {
-        year: "2023",
-        event:
-          "\u4e2a\u4eba\u4f5c\u54c1\u5165\u9009\u300a\u4e2d\u56fd\u5de5\u8279\u7f8e\u672f\u5aca\u95e8\u4e91\u304e\u5e74\u5ea6\u5c55\u300b",
+        year: "2024",
+        event: "参与“百人共刻百寿图”非遗公益活动，现场传艺授徒",
       },
     ],
   },
