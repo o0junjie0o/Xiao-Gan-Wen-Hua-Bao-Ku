@@ -1,9 +1,21 @@
-import { useRoute, Link } from "wouter";
-import { motion } from "framer-motion";
-import { useGetHeritageItem, useListArtisans } from "@workspace/api-client-react";
-import { ArrowLeft, MapPin, Calendar, Users, Tag, Star, BookOpen, PlayCircle } from "lucide-react";
-import { clsx } from "clsx";
 import MainLayout from "@/components/layout/MainLayout";
+import {
+  useGetHeritageItem,
+  useListArtisans,
+} from "@workspace/api-client-react";
+import { clsx } from "clsx";
+import { motion } from "framer-motion";
+import {
+  ArrowLeft,
+  BookOpen,
+  Calendar,
+  MapPin,
+  PlayCircle,
+  Star,
+  Tag,
+  Users,
+} from "lucide-react";
+import { Link, useRoute } from "wouter";
 
 const levelLabel: Record<string, string> = {
   national: "国家级",
@@ -24,9 +36,8 @@ export default function HeritageDetail() {
   const { data: item, isLoading } = useGetHeritageItem(id);
   const { data: artisansData } = useListArtisans({ limit: 20 });
 
-  const relatedArtisans = artisansData?.artisans?.filter(
-    (a) => a.heritageItemId === id
-  ) || [];
+  const relatedArtisans =
+    artisansData?.artisans?.filter((a) => a.heritageItemId === id) || [];
 
   if (isLoading) {
     return (
@@ -40,21 +51,30 @@ export default function HeritageDetail() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4">
         <p className="text-xl text-muted-foreground">未找到该非遗项目</p>
-        <Link href="/museum" className="text-primary hover:underline flex items-center gap-1">
+        <Link
+          href="/museum"
+          className="text-primary hover:underline flex items-center gap-1"
+        >
           <ArrowLeft className="w-4 h-4" /> 返回数字馆
         </Link>
       </div>
     );
   }
 
-  const tags: string[] = Array.isArray(item.tags) ? item.tags as string[] : [];
+  const tags: string[] = Array.isArray(item.tags)
+    ? (item.tags as string[])
+    : [];
 
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Hero Banner */}
       <div className="relative h-[420px] md:h-[520px] overflow-hidden">
         <img
-          src={item.imageUrl?.startsWith("http") ? item.imageUrl : `${import.meta.env.BASE_URL}${item.imageUrl}`}
+          src={
+            item.imageUrl?.startsWith("http")
+              ? item.imageUrl
+              : `${import.meta.env.BASE_URL}${item.imageUrl}`
+          }
           alt={`${item.name} - 孝感${item.category}非遗项目实拍`}
           className="w-full h-full object-cover object-center"
         />
@@ -73,7 +93,12 @@ export default function HeritageDetail() {
             transition={{ duration: 0.5 }}
           >
             <div className="flex items-center gap-3 mb-3">
-              <span className={clsx("px-3 py-1 text-sm font-bold rounded-md", levelColor[item.level] || "bg-gray-500 text-white")}>
+              <span
+                className={clsx(
+                  "px-3 py-1 text-sm font-bold rounded-md",
+                  levelColor[item.level] || "bg-gray-500 text-white",
+                )}
+              >
                 {levelLabel[item.level] || item.level}非遗
               </span>
               <span className="px-3 py-1 text-sm font-medium rounded-md bg-white/20 text-white backdrop-blur-sm">
@@ -85,9 +110,13 @@ export default function HeritageDetail() {
                 </span>
               )}
             </div>
-            <h1 className="text-3xl md:text-5xl font-serif font-bold text-white mb-2">{item.name}</h1>
+            <h1 className="text-3xl md:text-5xl font-serif font-bold text-white mb-2">
+              {item.name}
+            </h1>
             {item.nameEn && (
-              <p className="text-white/70 text-lg tracking-widest">{item.nameEn}</p>
+              <p className="text-white/70 text-lg tracking-widest">
+                {item.nameEn}
+              </p>
             )}
           </motion.div>
         </div>
@@ -115,12 +144,14 @@ export default function HeritageDetail() {
                 </div>
               </div>
             )}
-            {(item.artisanCount !== null && item.artisanCount !== undefined) && (
+            {item.artisanCount !== null && item.artisanCount !== undefined && (
               <div className="py-5 px-4 flex items-center gap-3">
                 <Users className="w-5 h-5 text-primary shrink-0" />
                 <div>
                   <p className="text-xs text-muted-foreground">传承人数</p>
-                  <p className="font-semibold text-sm">{item.artisanCount} 位</p>
+                  <p className="font-semibold text-sm">
+                    {item.artisanCount} 位
+                  </p>
                 </div>
               </div>
             )}
@@ -128,7 +159,9 @@ export default function HeritageDetail() {
               <Star className="w-5 h-5 text-primary shrink-0" />
               <div>
                 <p className="text-xs text-muted-foreground">保护级别</p>
-                <p className="font-semibold text-sm">{levelLabel[item.level] || item.level}非物质文化遗产</p>
+                <p className="font-semibold text-sm">
+                  {levelLabel[item.level] || item.level}非物质文化遗产
+                </p>
               </div>
             </div>
           </div>
@@ -168,17 +201,34 @@ export default function HeritageDetail() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
-                { title: "历史传承", desc: "植根于孝感本土文化，跨越世代传承，是地域文化记忆的活态载体。" },
-                { title: "艺术价值", desc: "集中体现了孝感劳动人民的智慧与审美，具有极高的艺术研究与欣赏价值。" },
-                { title: "社会功能", desc: "在岁时节令、人生礼仪中发挥重要作用，凝聚社区情感与文化认同。" },
-                { title: "传承意义", desc: "作为非物质文化遗产，其保护与传承对维护文化多样性具有重要意义。" },
+                {
+                  title: "历史传承",
+                  desc: "植根于孝感本土文化，跨越世代传承，是地域文化记忆的活态载体。",
+                },
+                {
+                  title: "艺术价值",
+                  desc: "集中体现了孝感劳动人民的智慧与审美，具有极高的艺术研究与欣赏价值。",
+                },
+                {
+                  title: "社会功能",
+                  desc: "在岁时节令、人生礼仪中发挥重要作用，凝聚社区情感与文化认同。",
+                },
+                {
+                  title: "传承意义",
+                  desc: "作为非物质文化遗产，其保护与传承对维护文化多样性具有重要意义。",
+                },
               ].map((v) => (
-                <div key={v.title} className="bg-card rounded-xl border border-border p-5">
+                <div
+                  key={v.title}
+                  className="bg-card rounded-xl border border-border p-5"
+                >
                   <div className="flex items-center gap-2 mb-2">
                     <div className="w-2 h-2 rounded-full bg-primary" />
                     <h3 className="font-semibold">{v.title}</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{v.desc}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {v.desc}
+                  </p>
                 </div>
               ))}
             </div>
@@ -217,12 +267,23 @@ export default function HeritageDetail() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {relatedArtisans.map((a) => (
-                  <div key={a.id} className="bg-card rounded-2xl border border-border p-5 flex items-center gap-4">
-                    <img src={a.avatarUrl} alt={a.name} className="w-14 h-14 rounded-full object-cover border-2 border-primary/20" />
+                  <div
+                    key={a.id}
+                    className="bg-card rounded-2xl border border-border p-5 flex items-center gap-4"
+                  >
+                    <img
+                      src={a.avatarUrl}
+                      alt={a.name}
+                      className="w-14 h-14 rounded-full object-cover border-2 border-primary/20"
+                    />
                     <div>
                       <p className="font-bold text-base">{a.name}</p>
-                      <p className="text-xs text-primary font-medium">{a.level}</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">{a.heritageItem}</p>
+                      <p className="text-xs text-primary font-medium">
+                        {a.level}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        {a.heritageItem}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -247,7 +308,10 @@ export default function HeritageDetail() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {tags.map((tag) => (
-                  <span key={tag} className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
+                  <span
+                    key={tag}
+                    className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full"
+                  >
                     {tag}
                   </span>
                 ))}
@@ -264,7 +328,8 @@ export default function HeritageDetail() {
           >
             <h3 className="text-lg font-bold mb-2">体验传承</h3>
             <p className="text-sm text-white/80 mb-4 leading-relaxed">
-              预约线下体验课，亲身感受{item.name}的技艺魅力，带走属于自己的非遗作品。
+              预约线下体验课，亲身感受{item.name}
+              的技艺魅力，带走属于自己的非遗作品。
             </p>
             <Link
               href="/artisans"

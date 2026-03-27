@@ -132,7 +132,7 @@ async function seed() {
       category: "传统美食",
       description: "孝感米酒以优质糯米为原料，采用传统酿造工艺，酒体醇厚，甜而不腻，深受孝感市民喜爱。孝感米酒酿造历史悠久，是当地节日、待客的传统饮品。其制作工艺包括泡米、蒸饭、拌曲、发酵、成品等步骤，全程手工操作，保留了原汁原味的传统风味。",
       shortDesc: "糯米酿造，传统工艺，孝感节日待客必备佳品",
-      imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+      imageUrl: "https://img.alicdn.com/i4/815924539/O1CN01GUdwG41jOuRifpHdD_!!815924539.jpg",
       origin: "孝感市",
       yearListed: 2011,
       artisanCount: 8,

@@ -25,7 +25,7 @@ const ARTISANS = [
     avatar:
       "https://ts3.tc.mm.bing.net/th/id/OIP-C.dRKfSe4Fb9n0Jwy89ot7sQHaE7?rs=1&pid=ImgDetMain&o=7&rm=3",
     heroBg:
-      "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&q=80",
+      "https://ts1.tc.mm.bing.net/th/id/R-C.7b9c4bf7fdfc7a658942b6c2f0a0ce61?rik=dv2N%2fOscc2Hr4g&riu=http%3a%2f%2fhbrbapp.hubeidaily.net%2f59f4fc4c-1f6f-47e4-90c2-27378205e2ad&ehk=H%2b3Du5%2blvXVRNbw0ss4YTpLrjyVVxxTxTseBnVvAR2A%3d&risl=&pid=ImgRaw&r=0",
     location: "\u5b5d\u611f\u5e02\u5b5d\u5357\u533a",
     born: "1954\u5e74",
     bio: "管丽芳，孝感雕花剪纸国家级代表性传承人。1954年3月出生，18岁拜师学艺，从艺50余年。擅长孝感雕花剪纸传统技艺，作品风格细腻精美、富有地域文化特色，多次获得国家级、省级奖项，致力于非遗传承与教学推广。",
@@ -95,8 +95,7 @@ const ARTISANS = [
       },
       {
         year: "近年",
-        event:
-          "深耕“破刀”技艺传承，通过授徒、进校园、产业化合作等方式，推动孝感雕花剪纸活态传承",
+        event: "深耕“破刀”技艺传承，推动孝感雕花剪纸活态传承",
       },
     ],
   },
@@ -110,7 +109,7 @@ const ARTISANS = [
     avatar:
       "https://pic.baike.soso.com/ugc/baikepic2/15422/20220506120818-1761484793_jpeg_600_338_42950.jpg/0",
     heroBg:
-      "https://images.unsplash.com/photo-1551818255-e6e10975bc17?auto=format&fit=crop&q=80",
+      "https://ts1.tc.mm.bing.net/th/id/R-C.f4eea1329e1a789ece1fe0816d72e259?rik=vZB6RqI5smnU6A&riu=http%3a%2f%2fimg.ts.cn%2f003%2f525%2f224%2f00352522431_3bbcc7d0.jpg&ehk=wohU064k30eHOemeAyHXszK95l8eu2zuBI%2fJGjH3Bqw%3d&risl=&pid=ImgRaw&r=0",
     location: "\u5b5d\u611f\u5e02\u4e91\u68a6\u53bf",
     born: "1949\u5e74",
     bio: "秦礼刚，云梦皮影戏国家级代表性传承人，深耕皮影艺术四十余载。他 29 岁拜老艺人刘修昌、皮影表演艺术家陆春元为师，正式踏入皮影领域，此后数十年如一日，全身心投入云梦皮影戏的传承、创新与推广，创下了年演出 364 天（仅除夕休息）的惊人纪录。",
@@ -139,18 +138,18 @@ const ARTISANS = [
     services: [
       {
         icon: Star,
-        name: "\u76ae\u5f71\u8868\u6f14\u9884\u7ea6",
-        desc: "\u56e2\u4f53\u5b9a\u5236\u8868\u6f14\uff0c\u5305\u542b\u7ecf\u5178\u5267\u76ee\u4e0e\u4e92\u52a8\u73af\u8282",
-        duration: "60\u5206\u949f",
-        capacity: "\u4e0d\u9650",
-        price: "\u4ece500\u5143",
+        name: "百日阅读计划",
+        desc: "每天30分钟阅读计划，5305名同学已参与并完成打卡",
+        duration: "60分钟",
+        capacity: "不限",
+        price: "500元",
       },
       {
         icon: Brush,
-        name: "\u76ae\u5f71\u5236\u4f5c\u5de5\u574a",
-        desc: "\u5c16\u5200\u5916\u52a0\u5c0f\u5012\u627f\u5c31\u5366\u4e0a\u81ea\u5df1\u4e2a\u6027\u5316\u76ae\u5f71\u4f5c\u54c1",
-        duration: "3\u5c0f\u65f6",
-        capacity: "8\u4eba",
+        name: "百日绘画入门",
+        desc: "零基础入门绘画，从线条到色彩，掌握基础绘画技巧，完成百日绘画挑战",
+        duration: "3个月",
+        capacity: "8人",
         price: "388",
       },
     ],
@@ -178,7 +177,7 @@ const ARTISANS = [
       },
       {
         year: "近年",
-        event: "通过进校园、进社区及新媒体传播，推动云梦皮影的2\�态传承",
+        event: "通过进校园、进社区及新媒体传播，推动云梦皮影的传承",
       },
     ],
   },
@@ -192,7 +191,7 @@ const ARTISANS = [
     avatar:
       "https://p3-pc-sign.douyinpic.com/tos-cn-p-0015/osbMtC7oBSnD9NQDvFeVfIKeBqMDQACZRwCE8A~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_PUBLISH&sc=cover&se=true&sh=323_430&x-expires=2089778400&x-signature=q9IgZ0A6YzDnPJvbpQl22WVudRM%3D",
     heroBg:
-      "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80",
+      "https://img.alicdn.com/i1/523682704/O1CN01GtWgHY1VqTX3d90QD_!!523682704.jpg",
     location: "\u5b5d\u611f\u5e02\u5b5d\u5357\u533a",
     born: "1963\u5e74",
     bio: "何宣川，孝感麻糖省级传承人。自幼投身于孝感麻糖的制作与传承，深耕麻糖制作技艺数十载，在保留传统工艺精髓的基础上，不断探索创新，致力于让这一老字号风味与文化焕发新生。他制作的麻糖甜而不腻、香酥适口，既延续了经典的老味道，又贴合现代口感需求，是孝感麻糖传统技艺的忠实守护者与积极传播者。",
@@ -220,19 +219,19 @@ const ARTISANS = [
     services: [
       {
         icon: ShoppingBag,
-        name: "\u624b\u5de5\u9ebb\u7cd6\u793c\u76d2\u5b9a\u5236",
-        desc: "\u7eaf\u624b\u5de5\u5236\u4f5c\uff0c\u53ef\u521b\u5236\u4e2a\u6027\u5316\u6587\u5b57\u6807\u8bb0\uff0c\u9002\u5408\u4f01\u4e1a\u5b9a\u5236\u3001\u8282\u65e5\u9001\u793c",
-        duration: "3\u5929\u5236\u4f5c",
-        capacity: "\u4e0d\u9650",
-        price: "\u4ece168\u5143",
+        name: "手工麻糖礼盒定制",
+        desc: "纯手工制作，可创制个性化文字标记，适合企业定制、节日送礼",
+        duration: "3天制作",
+        capacity: "不限",
+        price: 168,
       },
       {
         icon: BookOpen,
-        name: "\u9ebb\u7cd6\u5236\u4f5c\u8bfe",
-        desc: "\u4eb2\u624b\u4f53\u9a8c\u4f20\u7edf\u9ebb\u7cd6\u62c9\u5236\u5de5\u827a\uff0c\u5e26\u8d70\u81ea\u5df1\u5236\u4f5c\u7684\u6210\u54c1",
-        duration: "2.5\u5c0f\u65f6",
-        capacity: "10\u4eba",
-        price: "198",
+        name: "麻糖制作课",
+        desc: "亲手体验传统麻糖拉制工艺，带走自己制作的成品",
+        duration: "2.5小时",
+        capacity: "10人",
+        price: 198,
       },
     ],
     milestones: [
@@ -269,11 +268,11 @@ const ARTISANS = [
     level: "省级",
     item: "应城膏雕",
     itemEn: "Yingcheng Gypsum Carving",
-    years: "40+年",
+    years: "40",
     avatar:
       "https://p3-sdbk2-media.byteimg.com/tos-cn-i-xv4ileqgde/a9dce9a00c9f4d2ab12b75af21f3a75d~tplv-xv4ileqgde-cspdq:256:256:q30.image",
     heroBg:
-      "https://images.unsplash.com/photo-1517999349371-1ffe9e8d8a3e?auto=format&fit=crop&q=80",
+      "https://ts1.tc.mm.bing.net/th/id/R-C.844b2b0d7a7aca18e06f67f9d5ebd53b?rik=zNFfoBSi1PzHJQ&riu=http%3a%2f%2fhbrbapp.hubeidaily.net%2fb51193e5-7871-400f-a262-e394374d2620&ehk=c%2bbJ3GiWkh%2fWtETvRnWfE8OxYjC97%2fm07mZpKFC5cvM%3d&risl=&pid=ImgRaw&r=0",
     location: "\u5b5d\u611f\u5e02\u5e94\u57ce\u5e02",
     born: "1950\u5e74",
     bio: "伍柏林，应城膏雕省级传承人。应城石膏雕刻技艺历史悠久，伍柏林深耕此道四十余年，将传统膏雕技法与现代审美巧妙融合，既保留了古朴厚重的非遗韵味，又赋予作品符合当代市场的实用价值，为应城膏雕的传承与产业化发展开辟了新路径。",

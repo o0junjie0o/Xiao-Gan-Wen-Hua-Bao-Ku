@@ -13,7 +13,7 @@ export default function Artisans() {
       item: "孝感雕花剪纸",
       years: 50,
       avatar:
-        "https://msxy.hbeu.edu.cn/__local/C/CC/9B/33CCEDE9B06AA4B5C0F4B79BA9D_0AAE0F73_18333.jpg?e=.jpeg",
+        "https://ts1.tc.mm.bing.net/th/id/R-C.72d024c4639986d3e2594ca5523f3597?rik=OkRSLEua2fzSgA&riu=http%3a%2f%2foss.jp.cjn.cn%2fimages%2f20221118%2f1668762525707c143c460-5cb6-4983-aaa6-3cac5f66272f.png&ehk=qJK55Pzew3zUtUS3r005AsYXig1tIY8WHJi5U%2bElICw%3d&risl=&pid=ImgRaw&r=0",
       services: ["剪纸体验课", "私人定制"],
     },
     {
@@ -41,7 +41,8 @@ export default function Artisans() {
       name: "伍柏林",
       level: "省级",
       item: "应城膏雕",
-      years: "40+",      avatar:
+      years: "40",
+      avatar:
         "https://p3-sdbk2-media.byteimg.com/tos-cn-i-xv4ileqgde/a9dce9a00c9f4d2ab12b75af21f3a75d~tplv-xv4ileqgde-cspdq:256:256:q30.image",
       services: ["石膏摆件定制"],
     },
