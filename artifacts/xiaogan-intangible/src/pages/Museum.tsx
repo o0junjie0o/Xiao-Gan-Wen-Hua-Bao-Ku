@@ -196,7 +196,11 @@ export default function Museum() {
               >
                 <div className="aspect-[4/3] overflow-hidden relative">
                   <img
-                    src={item.imageUrl}
+                    src={
+                      item.id === 1
+                        ? "https://so1.360tres.com/t016f02c4365ee7e128.jpg"
+                        : item.imageUrl
+                    }
                     alt={`${item.name} - 孝感${item.category}非遗项目`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
