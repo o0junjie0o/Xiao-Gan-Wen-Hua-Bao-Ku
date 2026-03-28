@@ -279,13 +279,27 @@ export default function HeritageDetail() {
                             ? "https://ts2.tc.mm.bing.net/th/id/OIP-C.Xza5fM5bpCWHAWuIeQcvrAHaE9?rs=1&pid=ImgDetMain&o=7&rm=3"
                             : a.name === "秦礼刚"
                               ? "https://ts1.tc.mm.bing.net/th/id/R-C.0c10aa230d0988e784308da6f7bdbcf1?rik=SgwF2duP1%2fMCvQ&riu=http%3a%2f%2fuploadfile.yunnangateway.com%2f2021%2f1109%2f20211109035220149.jpg&ehk=ykIJ76vn7xBL%2bE1liH2bCfHiGK5YdQKR0Ktt%2bsTCCqk%3d&risl=&pid=ImgRaw&r=0"
-                              : a.avatarUrl
+                              : a.name === "何宣川"
+                                ? "https://p3-pc-sign.douyinpic.com/tos-cn-p-0015/osbMtC7oBSnD9NQDvFeVfIKeBqMDQACZRwCE8A~tplv-dy-cropcenter:323:430.jpeg?biz_tag=pcweb_cover&from=327834062&lk3s=138a59ce&s=PackSourceEnum_PUBLISH&sc=cover&se=true&sh=323_430&x-expires=2089778400&x-signature=q9IgZ0A6YzDnPJvbpQl22WVudRM%3D"
+                                : a.name === "李志明"
+                                  ? "https://ts1.tc.mm.bing.net/th/id/R-C.ef5c93acbe0b122fbea09ab2a9bd8639?rik=KuicAlHng4NrIQ&riu=http%3a%2f%2fctdsb.clouddiffuse.xyz%2f70c3ca3d-b9bf-47d2-9808-9f87fbdd5193&ehk=70MnRdlZfBHiE340XqMUPtNWxn0pvmT7lLOUTS4%2b5Bg%3d&risl=&pid=ImgRaw&r=0"
+                                  : a.name === "张玉兰"
+                                    ? "https://www.yeyebpc.com/upload/20250722/111550913.jpg"
+                                    : a.avatarUrl
                       }
-                      alt={a.name}
+                      alt={
+                        a.name === "张玉兰"
+                          ? "鲁建群"
+                          : a.name === "李志明"
+                            ? "伍柏林"
+                            : a.name
+                      }
                       className="w-14 h-14 rounded-full object-cover border-2 border-primary/20"
                     />
                     <div>
-                      <p className="font-bold text-base">{a.name}</p>
+                      <p className="font-bold text-base">
+                        {a.name === "张玉兰" ? "鲁建群" : a.name}
+                      </p>
                       <p className="text-xs text-primary font-medium">
                         {a.level}
                       </p>
