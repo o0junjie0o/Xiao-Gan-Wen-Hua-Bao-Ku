@@ -37,7 +37,7 @@ const HERITAGE_ITEMS = [
       "https://ts3.tc.mm.bing.net/th/id/OIP-C.3LOhcwq773pAUzvBba3ClgAAAA?rs=1&pid=ImgDetMain&o=7&rm=3",
     videoUrl: null,
     origin: "孝感全市",
-    yearListed: 2006,
+    yearListed: 2008,
     artisanCount: 8,
     tags: ["剪纸", "世界非遗", "国家级", "孝文化"],
     featured: true,
@@ -73,7 +73,7 @@ const HERITAGE_ITEMS = [
       "https://ts1.tc.mm.bing.net/th/id/OIP-C.jfoV33aCUELrcR1LuF3OYgHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
     videoUrl: null,
     origin: "孝感市云梦县",
-    yearListed: 2008,
+    yearListed: 2006,
     artisanCount: 4,
     tags: ["皮影戏", "国家级", "传统戏剧"],
     featured: true,
@@ -356,7 +356,8 @@ const HERITAGE_ITEMS = [
     description:
       "孝感民间剪纸是在国家级孝感雕花剪纸之外，广泛流传于孝感城乡的民间剪纸艺术。与精细的雕花剪纸不同，民间剪纸更加简洁生动，图案多为喜庆吉祥题材，在婚庆、节日中广泛使用，是孝感普通民众日常生活中的传统艺术表达。",
     shortDesc: "民间喜庆剪纸艺术，婚庆节日广泛应用，生动简洁贴近生活",
-    imageUrl: "https://pic.nximg.cn/file/20230418/20341285_114036830126_2.jpg",
+    imageUrl:
+      "https://ts1.tc.mm.bing.net/th/id/R-C.b7f1958268be8c446eede4230d4bbb0f?rik=Y70F5t%2fdSJJ%2f8w&riu=http%3a%2f%2f5b0988e595225.cdn.sohucs.com%2fimages%2f20190925%2f69cab7450ae0445e8481dce1795bd544.JPG&ehk=64wTiqE9fpK8i%2fRUvoxX9OWM%2bdeZX9P5uwv5zuc2pJA%3d&risl=&pid=ImgRaw&r=0",
     videoUrl: null,
     origin: "孝感市各地",
     yearListed: 2015,
@@ -471,7 +472,7 @@ const ARTISANS = [
     level: "省级传承人",
     heritageItem: "孝感米酒",
     heritageItemId: 8,
-    bio: "张玉兰是孝感���酒省级代表性传承人，传承祖传酿酒技艺，坚持使用本地优质糯米和传统酒曲，酿造出醇香甘甜的孝感米酒。她创立了孝感米酒品牌，在保护传统工艺的同时，积极开拓线上销售渠道，让更多人品尝到正宗的孝感米酒。",
+    bio: "张玉兰是孝感�����酒省级代表性传承人，传承祖传酿酒技艺，坚持使用本地优质糯米和传统酒曲，酿造出醇香甘甜的孝感米酒。她创立了孝感米酒品牌，在保护传统工艺的同时，积极开拓线上销售渠道，让更多人品尝到正宗的孝感米酒。",
     avatarUrl:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400",
     yearsOfPractice: 25,

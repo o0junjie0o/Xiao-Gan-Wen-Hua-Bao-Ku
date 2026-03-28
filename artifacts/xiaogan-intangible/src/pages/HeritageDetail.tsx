@@ -272,7 +272,11 @@ export default function HeritageDetail() {
                     className="bg-card rounded-2xl border border-border p-5 flex items-center gap-4"
                   >
                     <img
-                      src={a.avatarUrl}
+                      src={
+                        a.name === "管丽芳"
+                          ? "https://img.mp.sohu.com/upload/20170724/b2ea1b841cca4d75b835662840fbac94_th.png"
+                          : a.avatarUrl
+                      }
                       alt={a.name}
                       className="w-14 h-14 rounded-full object-cover border-2 border-primary/20"
                     />
