@@ -275,7 +275,11 @@ export default function HeritageDetail() {
                       src={
                         a.name === "管丽芳"
                           ? "https://img.mp.sohu.com/upload/20170724/b2ea1b841cca4d75b835662840fbac94_th.png"
-                          : a.avatarUrl
+                          : a.name === "徐忠德"
+                            ? "https://ts2.tc.mm.bing.net/th/id/OIP-C.Xza5fM5bpCWHAWuIeQcvrAHaE9?rs=1&pid=ImgDetMain&o=7&rm=3"
+                            : a.name === "秦礼刚"
+                              ? "https://ts1.tc.mm.bing.net/th/id/R-C.0c10aa230d0988e784308da6f7bdbcf1?rik=SgwF2duP1%2fMCvQ&riu=http%3a%2f%2fuploadfile.yunnangateway.com%2f2021%2f1109%2f20211109035220149.jpg&ehk=ykIJ76vn7xBL%2bE1liH2bCfHiGK5YdQKR0Ktt%2bsTCCqk%3d&risl=&pid=ImgRaw&r=0"
+                              : a.avatarUrl
                       }
                       alt={a.name}
                       className="w-14 h-14 rounded-full object-cover border-2 border-primary/20"

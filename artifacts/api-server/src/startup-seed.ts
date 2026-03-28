@@ -446,7 +446,7 @@ const ARTISANS = [
     awards: ["汉川市文化名人", "湖北省曲艺家协会会员", "全国优秀民间艺人"],
   },
   {
-    name: "余达雄",
+    name: "何宣川",
     level: "省级传承人",
     heritageItem: "孝感麻糖",
     heritageItemId: 7,
