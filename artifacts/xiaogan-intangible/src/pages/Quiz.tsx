@@ -1,14 +1,64 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Trophy, HelpCircle, CheckCircle2, XCircle } from "lucide-react";
+import { Trophy, HelpCircle, CheckCircle2, XCircle, BookOpen, Swords, Clock, Medal, User } from "lucide-react";
 import { clsx } from "clsx";
+
+type LeaderEntry = { nickname: string; correct: number; time: number };
+type CompPhase = "idle" | "nickname" | "playing" | "result";
+
+const LEADERBOARD_KEY = "xiao-quiz-leaderboard-v1";
+
+function formatTime(sec: number) {
+  const m = Math.floor(sec / 60).toString().padStart(2, "0");
+  const s = (sec % 60).toString().padStart(2, "0");
+  return `${m}:${s}`;
+}
+
+function loadLeaderboard(): LeaderEntry[] {
+  try {
+    const raw = localStorage.getItem(LEADERBOARD_KEY);
+    if (raw) return JSON.parse(raw) as LeaderEntry[];
+  } catch (_) {}
+  return [];
+}
+
+function saveLeaderboard(board: LeaderEntry[]) {
+  localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(board));
+}
+
+function insertAndTrim(board: LeaderEntry[], entry: LeaderEntry): LeaderEntry[] {
+  const next = [...board, entry];
+  next.sort((a, b) => b.correct - a.correct || a.time - b.time);
+  return next.slice(0, 10);
+}
+
+function isInTop10(board: LeaderEntry[], entry: LeaderEntry): boolean {
+  if (board.length < 10) return true;
+  const last = board[board.length - 1];
+  return entry.correct > last.correct || (entry.correct === last.correct && entry.time <= last.time);
+}
 
 export default function Quiz() {
   const [currentQ, setCurrentQ] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
+
+  // Competition mode state
+  const [compPhase, setCompPhase] = useState<CompPhase>("idle");
+  const [nickname, setNickname] = useState("");
+  const [nicknameInput, setNicknameInput] = useState("");
+  const [nicknameError, setNicknameError] = useState(false);
+  const [compQuestions, setCompQuestions] = useState<typeof questions>([]);
+  const [compCurrentQ, setCompCurrentQ] = useState(0);
+  const [compSelected, setCompSelected] = useState<number | null>(null);
+  const [compShowResult, setCompShowResult] = useState(false);
+  const [compCorrect, setCompCorrect] = useState(0);
+  const [elapsed, setElapsed] = useState(0);
+  const [leaderboard, setLeaderboard] = useState<LeaderEntry[]>(() => loadLeaderboard());
+  const [myEntry, setMyEntry] = useState<LeaderEntry | null>(null);
+  const [myInTop10, setMyInTop10] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const questions = [
     {
@@ -153,6 +203,7 @@ export default function Quiz() {
     }
   ];
 
+  // ---- Original quiz handlers ----
   const handleSelect = (idx: number) => {
     if (showResult) return;
     setSelected(idx);
@@ -168,18 +219,121 @@ export default function Quiz() {
       setSelected(null);
       setShowResult(false);
     } else {
-      // Quiz finished
       alert(`答题结束！得分：${score}`);
     }
   };
 
   const q = questions[currentQ];
 
+  // ---- Competition mode handlers ----
+  useEffect(() => {
+    if (compPhase === "playing") {
+      timerRef.current = setInterval(() => setElapsed(e => e + 1), 1000);
+    } else {
+      if (timerRef.current) clearInterval(timerRef.current);
+    }
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [compPhase]);
+
+  const startNicknamePhase = () => setCompPhase("nickname");
+
+  const confirmNickname = () => {
+    const name = nicknameInput.trim();
+    if (!name) { setNicknameError(true); return; }
+    setNickname(name);
+    setNicknameError(false);
+    // Randomly pick 10 questions (no repeat)
+    const shuffled = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
+    setCompQuestions(shuffled);
+    setCompCurrentQ(0);
+    setCompSelected(null);
+    setCompShowResult(false);
+    setCompCorrect(0);
+    setElapsed(0);
+    setCompPhase("playing");
+  };
+
+  const handleCompSelect = (idx: number) => {
+    if (compShowResult) return;
+    setCompSelected(idx);
+    setCompShowResult(true);
+    if (idx === compQuestions[compCurrentQ].correct) {
+      setCompCorrect(c => c + 1);
+    }
+  };
+
+  const handleCompNext = () => {
+    if (compCurrentQ < compQuestions.length - 1) {
+      setCompCurrentQ(q => q + 1);
+      setCompSelected(null);
+      setCompShowResult(false);
+    } else {
+      // Finish: stop timer, save result
+      if (timerRef.current) clearInterval(timerRef.current);
+      const finalCorrect = compCorrect + (compSelected === compQuestions[compCurrentQ].correct ? 1 : 0);
+      // Re-derive correct count to avoid stale closure
+      // Actually, compCorrect already reflects previous answers; current answer already counted in handleCompSelect
+      const entry: LeaderEntry = { nickname, correct: compCorrect + (compSelected === compQuestions[compCurrentQ].correct && !compShowResult ? 1 : 0), time: elapsed };
+      // Since handleCompSelect already incremented compCorrect before this runs:
+      const finalEntry: LeaderEntry = { nickname, correct: compCorrect, time: elapsed };
+      const prevBoard = loadLeaderboard();
+      const inTop = isInTop10(prevBoard, finalEntry);
+      const newBoard = inTop ? insertAndTrim(prevBoard, finalEntry) : prevBoard;
+      if (inTop) saveLeaderboard(newBoard);
+      setLeaderboard(inTop ? newBoard : prevBoard);
+      setMyEntry(finalEntry);
+      setMyInTop10(inTop);
+      setCompPhase("result");
+    }
+  };
+
+  const handleCompNextWrapped = () => {
+    // Need to compute final correct before state updates clear
+    if (compCurrentQ < compQuestions.length - 1) {
+      setCompCurrentQ(q => q + 1);
+      setCompSelected(null);
+      setCompShowResult(false);
+    } else {
+      finishCompetition();
+    }
+  };
+
+  const finishCompetition = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    const finalEntry: LeaderEntry = { nickname, correct: compCorrect, time: elapsed };
+    const prevBoard = loadLeaderboard();
+    const inTop = isInTop10(prevBoard, finalEntry);
+    const newBoard = inTop ? insertAndTrim(prevBoard, finalEntry) : prevBoard;
+    if (inTop) saveLeaderboard(newBoard);
+    setLeaderboard(inTop ? newBoard : prevBoard);
+    setMyEntry(finalEntry);
+    setMyInTop10(inTop);
+    setCompPhase("result");
+  };
+
+  const resetCompetition = () => {
+    setCompPhase("idle");
+    setNicknameInput("");
+    setNickname("");
+    setCompCurrentQ(0);
+    setCompSelected(null);
+    setCompShowResult(false);
+    setCompCorrect(0);
+    setElapsed(0);
+    setMyEntry(null);
+  };
+
+  const cq = compQuestions[compCurrentQ];
+  const medalColors = ["text-yellow-500", "text-slate-400", "text-amber-600"];
+
   return (
     <div className="min-h-screen bg-background pb-20">
+      {/* Header banner */}
       <div className="bg-primary pt-16 pb-32 text-primary-foreground relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 pattern-papercut" 
-             style={{ backgroundImage: `url(${import.meta.env.BASE_URL}images/papercut-pattern.png)` }} />
+        <div
+          className="absolute inset-0 opacity-10 pattern-papercut"
+          style={{ backgroundImage: `url(${import.meta.env.BASE_URL}images/papercut-pattern.png)` }}
+        />
         <div className="container relative z-10 mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">非遗知识大闯关</h1>
           <p className="text-lg opacity-90 max-w-xl mx-auto">
@@ -191,7 +345,8 @@ export default function Quiz() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 -mt-20 relative z-20 max-w-3xl">
+      <div className="container mx-auto px-4 -mt-20 relative z-20 max-w-3xl space-y-8">
+        {/* ---- Original quiz card ---- */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentQ}
@@ -203,7 +358,7 @@ export default function Quiz() {
             <div className="flex items-center gap-2 text-accent font-bold mb-6 text-sm tracking-wider">
               <HelpCircle className="w-5 h-5" /> 问题 {currentQ + 1} / {questions.length}
             </div>
-            
+
             <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground mb-8 leading-relaxed">
               {q.question}
             </h2>
@@ -213,7 +368,6 @@ export default function Quiz() {
                 const isSelected = selected === idx;
                 const isCorrect = showResult && idx === q.correct;
                 const isWrong = showResult && isSelected && idx !== q.correct;
-                
                 return (
                   <button
                     key={idx}
@@ -231,12 +385,12 @@ export default function Quiz() {
                     {isCorrect && <CheckCircle2 className="w-6 h-6 text-green-600" />}
                     {isWrong && <XCircle className="w-6 h-6 text-red-600" />}
                   </button>
-                )
+                );
               })}
             </div>
 
             {showResult && (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 className="mt-8 p-6 bg-muted/50 rounded-xl border border-border"
@@ -244,11 +398,8 @@ export default function Quiz() {
                 <h4 className="font-bold text-foreground mb-2 flex items-center gap-2">
                   <BookOpen className="w-4 h-4 text-primary" /> 知识科普
                 </h4>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {q.explanation}
-                </p>
-                
-                <button 
+                <p className="text-muted-foreground text-sm leading-relaxed">{q.explanation}</p>
+                <button
                   onClick={handleNext}
                   className="mt-6 w-full py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:bg-primary/90 transition-all shadow-md shadow-primary/20"
                 >
@@ -258,9 +409,300 @@ export default function Quiz() {
             )}
           </motion.div>
         </AnimatePresence>
+
+        {/* ---- Competition mode entry card ---- */}
+        {compPhase === "idle" && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-br from-primary/10 via-card to-accent/10 rounded-3xl border-2 border-primary/30 p-8 md:p-10 shadow-xl text-center"
+          >
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/15 mb-4">
+              <Swords className="w-8 h-8 text-primary" />
+            </div>
+            <h3 className="text-2xl font-serif font-bold text-foreground mb-2">竞赛模式</h3>
+            <p className="text-muted-foreground mb-6 leading-relaxed max-w-md mx-auto">
+              随机抽取10道孝文化题目，限时答题，冲榜争夺排行榜前十！成绩永久保存，接受挑战吗？
+            </p>
+            <button
+              onClick={startNicknamePhase}
+              className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-bold text-lg rounded-2xl hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-105 active:scale-95"
+            >
+              <Swords className="w-5 h-5" /> 进入竞赛模式
+            </button>
+          </motion.div>
+        )}
       </div>
+
+      {/* ---- Nickname modal ---- */}
+      <AnimatePresence>
+        {compPhase === "nickname" && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+          >
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.85, opacity: 0 }}
+              className="bg-card rounded-3xl shadow-2xl border border-border p-8 w-full max-w-md"
+            >
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary/15 mb-3">
+                  <User className="w-7 h-7 text-primary" />
+                </div>
+                <h3 className="text-2xl font-serif font-bold text-foreground">输入你的昵称</h3>
+                <p className="text-muted-foreground text-sm mt-1">昵称将显示在排行榜上</p>
+              </div>
+              <input
+                type="text"
+                value={nicknameInput}
+                onChange={e => { setNicknameInput(e.target.value); setNicknameError(false); }}
+                onKeyDown={e => e.key === "Enter" && confirmNickname()}
+                placeholder="请输入昵称（最多10字）"
+                maxLength={10}
+                className={clsx(
+                  "w-full border-2 rounded-xl px-4 py-3 text-lg font-medium outline-none transition-all bg-background text-foreground placeholder:text-muted-foreground",
+                  nicknameError ? "border-red-400 focus:border-red-500" : "border-border focus:border-primary"
+                )}
+                autoFocus
+              />
+              {nicknameError && (
+                <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+                  <XCircle className="w-4 h-4" /> 昵称不能为空，请输入后再开始
+                </p>
+              )}
+              <div className="flex gap-3 mt-6">
+                <button
+                  onClick={() => setCompPhase("idle")}
+                  className="flex-1 py-3 rounded-xl border-2 border-border font-bold text-muted-foreground hover:bg-muted/50 transition-all"
+                >
+                  取消
+                </button>
+                <button
+                  onClick={confirmNickname}
+                  className="flex-1 py-3 rounded-xl bg-primary text-primary-foreground font-bold hover:bg-primary/90 transition-all shadow-md shadow-primary/20"
+                >
+                  开始竞赛
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ---- Competition playing overlay ---- */}
+      <AnimatePresence>
+        {compPhase === "playing" && cq && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 overflow-y-auto bg-background"
+          >
+            {/* Competition header */}
+            <div className="bg-primary text-primary-foreground pt-8 pb-16 px-4 relative overflow-hidden">
+              <div
+                className="absolute inset-0 opacity-10"
+                style={{ backgroundImage: `url(${import.meta.env.BASE_URL}images/papercut-pattern.png)` }}
+              />
+              <div className="container mx-auto max-w-2xl relative z-10">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 font-bold">
+                    <Swords className="w-5 h-5" />
+                    <span>竞赛模式</span>
+                    <span className="opacity-70 text-sm font-normal ml-1">· {nickname}</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full font-bold text-lg tabular-nums">
+                    <Clock className="w-4 h-4 text-yellow-300" />
+                    {formatTime(elapsed)}
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <div className="flex justify-between text-sm opacity-80 mb-1.5">
+                    <span>第 {compCurrentQ + 1} 题 / 共 10 题</span>
+                    <span>已答对 {compCorrect} 题</span>
+                  </div>
+                  <div className="w-full bg-white/20 rounded-full h-2">
+                    <div
+                      className="bg-yellow-300 h-2 rounded-full transition-all duration-500"
+                      style={{ width: `${((compCurrentQ) / 10) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="container mx-auto px-4 -mt-8 max-w-2xl pb-10">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={compCurrentQ}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  className="bg-card rounded-3xl shadow-2xl border border-border p-8 md:p-10"
+                >
+                  <h2 className="text-xl md:text-2xl font-serif font-bold text-foreground mb-7 leading-relaxed">
+                    {cq.question}
+                  </h2>
+                  <div className="space-y-3">
+                    {cq.options.map((opt, idx) => {
+                      const isSelected = compSelected === idx;
+                      const isCorrect = compShowResult && idx === cq.correct;
+                      const isWrong = compShowResult && isSelected && idx !== cq.correct;
+                      return (
+                        <button
+                          key={idx}
+                          onClick={() => handleCompSelect(idx)}
+                          disabled={compShowResult}
+                          className={clsx(
+                            "w-full text-left p-4 rounded-xl border-2 font-medium text-base transition-all flex justify-between items-center",
+                            !compShowResult && "border-border hover:border-primary hover:bg-primary/5",
+                            isCorrect && "border-green-500 bg-green-50 text-green-700",
+                            isWrong && "border-red-500 bg-red-50 text-red-700",
+                            compShowResult && !isCorrect && !isWrong && "border-border opacity-50"
+                          )}
+                        >
+                          <span>{String.fromCharCode(65 + idx)}. {opt}</span>
+                          {isCorrect && <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0" />}
+                          {isWrong && <XCircle className="w-5 h-5 text-red-600 shrink-0" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {compShowResult && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      className="mt-6"
+                    >
+                      <button
+                        onClick={handleCompNextWrapped}
+                        className="w-full py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:bg-primary/90 transition-all shadow-md shadow-primary/20"
+                      >
+                        {compCurrentQ < compQuestions.length - 1 ? "下一题 →" : "查看结果"}
+                      </button>
+                    </motion.div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ---- Competition result overlay ---- */}
+      <AnimatePresence>
+        {compPhase === "result" && myEntry && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 overflow-y-auto bg-background"
+          >
+            <div className="bg-primary text-primary-foreground pt-12 pb-20 px-4 relative overflow-hidden text-center">
+              <div
+                className="absolute inset-0 opacity-10"
+                style={{ backgroundImage: `url(${import.meta.env.BASE_URL}images/papercut-pattern.png)` }}
+              />
+              <div className="relative z-10">
+                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/20 mb-4">
+                  <Trophy className="w-10 h-10 text-yellow-300" />
+                </div>
+                {myInTop10 ? (
+                  <>
+                    <h2 className="text-3xl font-serif font-bold mb-2">恭喜进入排行榜！</h2>
+                    <p className="opacity-80 text-lg">你的成绩已跻身前十，好一位孝文化达人！</p>
+                  </>
+                ) : (
+                  <>
+                    <h2 className="text-3xl font-serif font-bold mb-2">答题完成！</h2>
+                    <p className="opacity-80 text-lg">继续努力，下次冲击排行榜前十！</p>
+                  </>
+                )}
+                <div className="mt-6 inline-flex gap-6 bg-white/20 backdrop-blur-md px-8 py-3 rounded-2xl font-bold text-lg">
+                  <span>答对 {myEntry.correct} / 10 题</span>
+                  <span className="opacity-50">|</span>
+                  <span className="flex items-center gap-1.5">
+                    <Clock className="w-4 h-4" /> {formatTime(myEntry.time)}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="container mx-auto px-4 -mt-10 max-w-2xl pb-12">
+              <div className="bg-card rounded-3xl shadow-2xl border border-border p-6 md:p-8">
+                <h3 className="text-xl font-serif font-bold text-foreground mb-5 flex items-center gap-2">
+                  <Medal className="w-5 h-5 text-primary" /> 孝文化知识排行榜
+                </h3>
+
+                {leaderboard.length === 0 ? (
+                  <p className="text-muted-foreground text-center py-8">暂无记录，你是第一位挑战者！</p>
+                ) : (
+                  <div className="space-y-2">
+                    {leaderboard.map((entry, i) => {
+                      const isMe = myInTop10 && entry.nickname === myEntry.nickname && entry.correct === myEntry.correct && entry.time === myEntry.time;
+                      return (
+                        <div
+                          key={i}
+                          className={clsx(
+                            "flex items-center gap-4 px-5 py-3.5 rounded-xl border-2 transition-all",
+                            isMe
+                              ? "border-primary bg-primary/8 font-bold shadow-md shadow-primary/15"
+                              : "border-border bg-muted/30"
+                          )}
+                        >
+                          <span className={clsx("text-xl font-black w-7 text-center shrink-0", medalColors[i] ?? "text-muted-foreground")}>
+                            {i + 1}
+                          </span>
+                          <span className={clsx("flex-1 font-medium truncate", isMe && "text-primary font-bold")}>
+                            {entry.nickname}
+                            {isMe && <span className="ml-2 text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full">你</span>}
+                          </span>
+                          <span className={clsx("font-bold tabular-nums", isMe ? "text-primary" : "text-foreground")}>
+                            {entry.correct} / 10
+                          </span>
+                          <span className="text-muted-foreground text-sm tabular-nums flex items-center gap-1">
+                            <Clock className="w-3.5 h-3.5" />{formatTime(entry.time)}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Show my entry below if not in top 10 */}
+                {!myInTop10 && (
+                  <div className="mt-5 pt-5 border-t border-border">
+                    <p className="text-xs text-muted-foreground mb-3 uppercase tracking-wider">本次成绩（未进入前十）</p>
+                    <div className="flex items-center gap-4 px-5 py-3.5 rounded-xl border-2 border-primary/40 bg-primary/5">
+                      <span className="text-xl font-black w-7 text-center text-muted-foreground shrink-0">—</span>
+                      <span className="flex-1 font-bold text-primary truncate">
+                        {myEntry.nickname}
+                        <span className="ml-2 text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full">你</span>
+                      </span>
+                      <span className="font-bold text-primary tabular-nums">{myEntry.correct} / 10</span>
+                      <span className="text-muted-foreground text-sm tabular-nums flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5" />{formatTime(myEntry.time)}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                <button
+                  onClick={resetCompetition}
+                  className="mt-8 w-full py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:bg-primary/90 transition-all shadow-md shadow-primary/20 text-lg"
+                >
+                  再次挑战
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
-
-import { BookOpen } from "lucide-react";
